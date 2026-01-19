@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'">
+    <!-- <meta http-equiv="Content-Security-Policy" content="img-src 'self' data:; default-src 'self'"> -->
+    <!-- <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+
+    <title>Interaction labeling App</title>
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <!-- <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="./node_modules/material-icons/iconfont/material-icons.css"> -->
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <!-- <link rel="manifest" href="./manifest.webmanifest" crossorigin="use-credentials"> -->
+  </head>
+  <body>
+    <!-- <div class="container-fluid text-bg-dark py-1 title-bar"> -->
+      <div class="title-bar d-flex justify-content-center align-items-center text-bg-dark">
+
+        <div class="d-flex gap-3 mx-2 mt-2 non-draggable">
+          <!-- <button id="relaunch-btn" class="btn btn-icon-normal dark" role="button" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Relaunch"><span class="material-symbols-rounded">restart_alt</span></button> -->
+          <button id="export-all-btn" class="btn btn-icon-normal dark" role="button" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Export your work"><span class="material-symbols-rounded">output_circle</span></button>
+        </div>
+
+        <!-- Panel sizing buttons -->
+        <div class="btn-group btn-group-sm mx-5 mt-2 non-draggable" role="group">
+          <button id="shrink-main-panel-btn" type="button" class="btn btn-icon-normal dark" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Shrink main view"><span class="material-symbols-rounded">arrow_circle_left</span></button>
+          <button id="reset-main-panel-btn" type="button" class="btn btn-icon-normal dark" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Reset main view"><span class="material-symbols-rounded" >adjust</span></button>
+          <button id="enlarge-main-panel-btn" type="button" class="btn btn-icon-normal dark" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Enlarge main view"><span class="material-symbols-rounded">arrow_circle_right</span></button>
+        </div>
+
+        <div class="d-flex gap-3 mx-2 mt-2 non-draggable">
+          <button id="show-keyboard-shortcuts-btn" class="btn btn-icon-normal dark" role="button" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Shortcuts"><span class="material-symbols-rounded">keyboard</span></button>     
+          <button id="show-settings-btn" class="btn btn-icon-normal dark" role="button" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Settings">
+            <span class="material-symbols-rounded">settings</span>
+          </button>
+          <button id="show-help-btn" class="btn btn-icon-normal dark" role="button" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Help"><span class="material-symbols-rounded">help</span></button>
+          <button id="show-release-notes-btn" class="btn btn-icon-normal dark" role="button" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Release notes"><span class="material-symbols-rounded">campaign</span></button>
+          
+          
+          
+          <!-- <div class="version-info title-bar-text align-self-center"></div> -->
+            
+
+          <!-- <button id="show-release-notes-btn" class="btn btn-icon-normal dark d-flex align-items-center" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Release notes"><span class="version-info small"></span>
+          </button> -->
+          
+          
+          <!-- <button id="show-feedback-btn" class="btn btn-icon-normal dark" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Give feedback"><span class="material-symbols-rounded">feedback</span></button>       -->
+        </div>
+      </div>
+    <!-- </div> -->
+    
+    
+    <!-- Main container -->
+    <div class="container-fluid text-center">
+      <!-- Top row for info text, helper buttons, etc. -->
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <!-- Put toasts within -->
+          <div aria-live="polite" aria-atomic="true" class="position-relative">
+            <!-- Position it: -->
+            <!-- - `.toast-container` for spacing between toasts -->
+            <!-- - `top-0` & `start-50` to position the toasts in the upper middle -->
+            <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
+            <div class="toast-container top-0 start-50 translate-middle-x p-3">
+              <div id="labeling-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" data-subject-id="" data-timestamp="" data-frame-number="">
+                <div class="d-flex toast-header justify-content-between align-items-center">
+                  <div class="toast-title fw-bold">
+                    <!-- To be filled dynamically -->
+                  </div>
+                  <div>
+                    <small id="toast-timestamp" class="text-body-secondary"></small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                  </div>
+                </div>
+                <div class="toast-body">
+                  <ul class="nav nav-tabs" id="toast-tabs">
+                    <li class="nav-item" role="presentation" data-bs-toggle="popover" data-bs-content="Import actions to enable labeling" data-bs-title="Labeling Disabled" data-bs-placement="left" data-bs-container="body" data-bs-custom-class="toast-popover" data-bs-trigger="hover">
+                      <button class="nav-link" id="behavior-toast-tab" data-bs-toggle="tab" data-bs-target="#behavior-toast-tab-pane"   type="button" role="tab" data-is-end="false" data-obs-status="new">Behavior</button>
+                      <!-- <a class="nav-link" href="#">Interaction</a> -->
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="tracking-toast-tab" data-bs-toggle="tab" data-bs-target="#tracking-toast-tab-pane" type="button" role="tab">Tracking</button>
+                      <!-- <a class="nav-link active" href="#">Tracking</a> -->
+                    </li>
+                  </ul>
+                  <div class="mt-3">
+                    <div id="toast-text">
+
+                    </div>
+                  </div>
+                  <div id="toast-alert" class="alert alert-danger" role="alert"></div>
+                  <div class="tab-content">
+                    <!-- <div class="input-group input-group-sm">
+                      <label class="input-group-text" for="track-edit-select">Change track ID</label>
+                      <select id="track-edit-select" name="track-edit-options" class="form-select"></select>
+                    </div> -->
+                    <div class="tab-pane fade" id="tracking-toast-tab-pane" role="tabpanel" aria-labelledby="tracking" tabindex="0">
+                      <div id="tracking-info-text" class="fw-bold text-center"></div>
+                      
+                      <!-- Editing individual names on tracking boxes hidden by default -->
+                      <div class="input-group input-group-sm" id="name-edit-div">
+                        <div class="input-group-text">
+                          <input class="form-check-input mt-0" type="radio" name="track-edit-options" value="new-name">
+                          <div class="ms-1 description">Change name</div>
+                        </div>
+                        <select id="name-edit-select" class="form-select form-select-sm" aria-label="Name selection"></select>
+                        <!-- <input id="new-name" type="number" class="form-control" min="0" aria-label="Text input for assigning a new name"> -->
+                      </div>
+                      <div class="input-group input-group-sm" id="class-edit-div">
+                        <div class="input-group-text">
+                          <input class="form-check-input mt-0" type="radio" name="track-edit-options" value="new-class">
+                          <div class="ms-1 description">Change class</div>
+                        </div>
+                        <select id="class-edit-select" class="form-select form-select-sm" aria-label="Class selection"></select>
+                        <!-- <input id="new-name" type="number" class="form-control" min="0" aria-label="Text input for assigning a new name"> -->
+                      </div>
+                      <div class="input-group input-group-sm track-id-specific-option">
+                        <div class="input-group-text">
+                          <input class="form-check-input mt-0" type="radio" name="track-edit-options" value="manual-new-id">
+                          <div class="ms-1">Assign a new track ID</div>
+                        </div>
+                        <input id="manual-new-id" type="number" class="form-control" min="0" aria-label="Text input for assigning a new ID">
+                      </div>
+                      <div class="input-group input-group-sm track-id-specific-option">
+                        <div class="input-group-text">
+                          <input class="form-check-input mt-0" type="radio" name="track-edit-options" value="auto-new-id">
+                          <div class="ms-1">Assign the next unused track ID</div>
+                        </div>
+                        <input id="next-unused-track-id" type="text" class="form-control" aria-label="Text input for assigning a new ID" disabled>
+                      </div>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-text">
+                          <input class="form-check-input mt-0" type="radio" name="track-edit-options" value="remove">
+                          <div class="ms-1">Remove track</div>
+                        </div>
+                      </div>
+
+                      <!-- <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="track-edit-options" id="remove" value="remove">
+                        <label class="form-check-label" for="apply-all">Remove track</label>
+                      </div> -->
+
+                      <div class="mt-3"><strong>Apply changes for:</strong></div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="apply-for-selection" id="apply-all" value="all" checked>
+                        <label class="form-check-label" for="all">All frames from the beginning</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="apply-for-selection" id="apply-after-current" value="after-current">
+                        <label class="form-check-label" for="apply-after-current">All frames after this frame</label>
+                      </div>
+                      <!-- <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="apply-for-selection" id="apply-only-current" value="only-current">
+                        <label class="form-check-label" for="apply-only-current">Only this frame</label>
+                      </div> -->
+                      <div class="mt-2 pt-2 border-top">
+                        <button id="tracking-edit-btn" type="button" class="btn btn-primary btn-sm" data-is-start="true">Save</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancel</button>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="behavior-toast-tab-pane" role="tabpanel" aria-labelledby="interaction" tabindex="0">
+                      <div class="input-group input-group-sm mb-2">
+                        <label class="input-group-text" for="subject-select">Subject</label>
+                        <select id="subject-select" class="form-select form-select-sm" aria-label="Subject selection"></select>
+                      </div>
+                      <div class="input-group input-group-sm mb-2">
+                        <label class="input-group-text" for="target-select">Target</label>
+                        <select id="target-select" class="form-select form-select-sm" aria-label="Object selection"></select>
+                      </div>
+                      <div class="input-group input-group-sm mb-2">
+                        <label class="input-group-text" for="action-select">Action</label>
+                        <select id="action-select" class="form-select form-select-sm" aria-label="Action selection"></select>
+                      </div>
+                      <!-- <div class="input-group input-group-sm mb-2">
+                        <label class="input-group-text" for="modifier-select">Modifier</label>
+                        <select id="modifier-select" class="form-select form-select-sm" aria-label="Modifier selection"></select>
+                      </div> -->
+                      <div class="mt-2 pt-2 border-top">
+                        <button id="label-save-btn" type="button" class="btn btn-primary btn-sm" data-is-start="true">Mark start</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancel</button>
+                        <!-- <button id="cancel-label-save-btn" type="button" class="btn btn-secondary btn-sm">Cancel</button> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="overlapping-tracks-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                  <strong class="me-auto">Overlapping Tracks</strong>
+                  <div id="toast-timestamp" class="text-body-secondary small me-auto"></div>
+                  <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                  <div id="overlapping-toast-alert-div" class="alert alert-danger d-none" role="alert">
+                    <!-- To be filled dynamically -->
+                  </div>
+                  Choose one of the overlapping tracks
+                  <select id="overlapping-track-select" class="form-select form-select-sm mt-3" aria-label="Track selection"></select>
+                  <div class="mt-2 pt-2 border-top">
+                    <button id="overlapping-track-select-btn" type="button" class="btn btn-primary btn-sm" data-is-start="true">Continue</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Video row -->
+      <div class="row g-1 mt-1">
+        <!-- Main video column -->
+        <div id="main-video-col" class="col">
+          <div class="row g-1">
+            <div class="col">
+              <div class="card">
+                <div class="card-header">
+                  <div id="main-video-bar" class="d-flex justify-content-between info-bar-player">
+                    <div class="fw-bold">Main View</div>
+                    <div class="d-flex mx-auto">
+                      <div class="small" id="main-video-title">
+
+                      </div>
+                      
+
+                      <!-- <div id="loading-indicator-btn" class="spinner-grow spinner-grow-sm d-none ms-2" aria-hidden="true">
+                        <span class="visually-hidden">Processing...</span>
+                      </div> -->
+                      <div id="current-observation-div" class="btn-group d-none" role="group" data-bs-trigger="popover" data-bs-trigger="manual" data-bs-content="" data-bs-placement="bottom">
+                        <button id="current-observation-start" type="button" class="btn btn-outline-dark btn-tiny ms-4 d-flex align-items-center my-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Go to start" data-bs-trigger="hover">
+                        </button>
+                        <button id="current-observation-description" type="button" class="btn btn-outline-dark btn-tiny d-flex align-items-center my-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Selection" data-bs-trigger="hover">
+                        </button>
+                        <button id="current-observation-end" type="button" class="btn btn-outline-dark btn-tiny d-flex align-items-center my-0 d-none" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Go to end" data-bs-trigger="hover">
+                        </button>
+                        <button id="undo-current-observation-btn" type="button" class="btn btn-outline-dark btn-tiny d-flex align-items-center my-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Undo" data-bs-trigger="hover"><span class="material-symbols-rounded">undo</span>
+                          <span id="current-observation-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"></span>
+                        </button>
+                      </div>
+                      <div id="interpolation-main-bar-div" class="ms-4 d-none">
+                        <button class="btn btn-primary btn-tiny position-relative my-0 cancel-btn" type="button">Cancel interpolation
+                          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"></span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="button-div">
+                      <button id="loading-indicator-btn" role="button" class="btn btn-primary btn-tiny my-0 ms-2 invisible" disabled>
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        <span role="status">Processing...</span>
+                      </button>
+                      <div class="main-panel-btn-div ms-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Zooming mode" data-bs-trigger="hover">
+                        <span id="toggle-zooming-mode-btn" role="button" class="main-panel-btn material-symbols-rounded off" tabindex="-1">deselect</span>
+                      </div>
+                      <div class="main-panel-btn-div ms-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Drawing mode" data-bs-trigger="hover">
+                        <span id="toggle-drawing-mode-btn" role="button" class="material-symbols-rounded main-panel-btn off" tabindex="-1">edit_off</span>
+                      </div>
+                      <div class="main-panel-btn-div ms-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Labeling mode" data-bs-trigger="hover">
+                        <span id="toggle-labeling-mode-btn" role="button" class="material-symbols-rounded main-panel-btn off" tabindex="-1">label_off</span>
+                      </div>
+                      <div class="main-panel-btn-div ms-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Toggle tracking" data-bs-trigger="hover">
+                        <span id="toggle-tracking-btn" role="button" class="material-symbols-rounded main-panel-btn off" tabindex="-1">frame_person</span>
+                      </div>
+                      <div class="main-panel-btn-div ms-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Take a snapshot" data-bs-trigger="hover">
+                        <span id="snapshot-btn" role="button" class="material-symbols-rounded main-panel-btn off" tabindex="-1">photo_camera</span>
+                      </div>
+                      <div class="main-panel-btn-div ms-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Import tracking file" data-bs-trigger="hover">
+                        <span id="import-tracking-file-btn" role="button" class="material-symbols-rounded main-panel-btn off" tabindex="-1">upload</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="card-body p-0"> -->
+                <div id="main-video-div" class="position-relative ratio ratio-16x9">
+                  <div class="position-absolute spinner-parent-div"></div>
+                    <video id="main-video">
+                      Your browser does not support the video tag.
+                    </video>  
+                    
+                    <!-- Area selection for zoom for the main video -->
+                    <canvas id="main-zoom-select-canvas" class="position-absolute"></canvas>
+                    <canvas id="main-drawing-canvas" class="position-absolute"></canvas>
+                    <canvas id="main-tracking-canvas" class="position-absolute"></canvas>
+
+                    <!-- Div for converting canvas rectangles to div elements -->
+                    <!-- <div id="main-drawing-div" class="position-absolute d-none"></div>  -->
+                    
+                    <!-- Right click select for changing ids-->
+                    <div id="right-click-canvas-div" class="input-group input-group-sm position-absolute d-none">
+                      <span class="input-group-text info-text"></span>
+                      <select id="right-click-select" class="form-select form-select-sm" aria-label="Name selection">
+                      </select>
+                      <button class="btn btn-primary confirm-btn" type="button" id="name-edit-btn">Save</button>
+                    </div>
+
+                    <!-- Elements for creating a new bounding box -->
+                    <div id="new-bounding-box-confirm-div" class="position-absolute d-none bg-dark-subtle p-1 rounded">
+
+                      <div class="input-group input-group-sm mb-1 new-class-input">
+                        <!-- Select among existing classes or create a new one with datalist -->
+                        <div class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Check to create a new class">
+                          <input class="form-check-input mt-0 me-1 new-class-check" type="checkbox" value="">
+                          <label for="class-choice-new-bbox">New</label>
+                        </div>
+                        <input list="class-list-new-bbox" class="form-control form-control-sm" id="class-choice-new-bbox" name="class-choice-new-bbox" placeholder="Type to assign class" />
+                        <datalist id="class-list-new-bbox"></datalist>
+                        <input type="color" class="form-control form-control-color" colorspace="display-p3" value="#563d7c" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Select new class color" />
+                      </div>
+
+                      <!-- Create a new class -->
+                      <!-- <div class="input-group input-group-sm">
+                        <div class="input-group-text">
+                          <input class="form-check-input mt-0" type="radio" value="">
+                        </div>
+                        <input type="text" class="form-control form-control-sm" placeholder="New class name" aria-label="New class name" aria-describedby="new-class-btn">
+                        <button class="btn btn-sm btn-secondary" type="button" id="new-class-btn">Create</button>
+                      </div>   -->
+                        
+                      <!-- Interpolation elements -->
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-text pb-0">
+                          <div class="form-check form-switch mb-0">
+                            <input class="form-check-input" type="checkbox" role="switch" id="interpolate-check">
+                            <label class="form-check-label my-auto" for="interpolate-check">Interpolate</label>
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-primary interpolate-btn continue-btn d-none">Continue</button>
+                        <button type="button" class="btn btn-sm btn-danger interpolate-btn end-btn d-none">End</button>
+                        
+                        <button type="button" class="btn btn-sm btn-primary confirm-btn">Save</button>
+                        <button type="button" class="btn btn-sm btn-secondary cancel-btn">Cancel</button>
+                      </div>   
+                      <div class="interpolate-label x-small d-none form-text"></div>
+                    </div>   
+
+
+                    <!-- Element for options to resize an existing bounding box -->
+                    <!-- <div id="bounding-box-resize-confirm-div" class="position-absolute d-none d-flex">
+                      <select class="form-select form-select-sm" aria-label="Class selection"></select>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-text pb-0">
+                          <div class="form-check form-switch mb-0">
+                            <input class="form-check-input" type="checkbox" role="switch" id="resize-interpolate-check">
+                            <label class="form-check-label my-auto" for="resize-interpolate-check">Interpolate</label>
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-primary confirm-btn">Save</button>
+                        <button type="button" class="btn btn-sm btn-secondary cancel-btn">Cancel</button>
+                      </div>
+                      <button type="button" class="btn btn-sm btn-primary interpolate-btn me-1 d-none">Interpolate</button>
+                    </div> -->
+
+                    <!-- Div for showing popovers for tracks within the canvas-->
+                    <div tabindex="0" id="popover-canvas-div" class="position-absolute d-none" data-bs-trigger="popover" data-bs-trigger="manual" data-bs-content="" data-bs-placement="right" data-bs-custom-class="canvas-popover"></div>
+                    <div tabindex="0" id="alert-popover-canvas-div" class="position-absolute d-none" data-bs-trigger="popover" data-bs-trigger="manual"></div>
+                    
+                    <!-- This button prevents the click event on canvas! Fix this! -->
+                    <!-- <div class="position-absolute top-50 start-50 translate-middle-x"> -->
+                      <!-- <div class="">Open a video as the main view</div> -->
+                    <!-- </div>  -->
+                    <div id="initial-panel-div" class="d-flex flex-column align-items-center justify-content-center">
+                      <div>
+                        <span id="open-main-video-btn" type="button" class="material-symbols-rounded size-48 ms-2" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Open new video">video_file</span>
+                      </div>
+                      <div>
+                        Open a video as the main view
+                        <div class="d-flex align-items-center my-2">
+                          <hr class="flex-grow-1">
+                          <span class="mx-3">Or</span>
+                          <hr class="flex-grow-1">
+                        </div>
+                      </div>
+                      <div>
+                        <button id="import-example-files-btn" type="button" class="btn btn-outline-dark">Import example videos & files</button>
+                      </div>
+                      <!-- <div class="h6 my-5 fw-bold">OR</div> -->
+                      <!-- <button id="open-experiment-folder-btn" type="button" class="btn btn-icon-large ms-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Open experiment folder"><span class="material-symbols-rounded">folder</span></button>
+                      <div>Open an experiment folder</div> -->
+                    </div>
+                  </div>
+                <!-- </div> -->
+              </div>
+            </div>
+            <!-- Control bar column -->
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body p-2">
+                  <!-- Progress bar row -->
+                  <div class="row g-1 align-items-center">
+                    <div class="col-12">
+                      <div id="control-bar" class="row align-items-center justify-content-between">
+                        <div class="col-auto">
+                          <div id="current-time" class="control-bar-font"></div>
+                          <div id="current-frame" class="control-bar-font fw-lighter" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Current frame"></div>
+                        </div>
+                        <div class="col">
+                          <!-- Show video frame when hovering over progress bar -->
+                          <video id="hover-video" class="d-none">
+                            Your browser does not support the video tag.
+                          </video> 
+                          <div id="progress-bar" class="progress" role="progressbar">
+                            <div id="progress" class="progress-bar text-bg-dark"></div>
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <div id="total-time" class="control-bar-font"></div>
+                          <div id="total-frames" class="control-bar-font fw-lighter" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Frame count"></div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                  <!-- Control bar row -->
+                  <div class="row align-items-center justify-content-center">
+                    <div id="skip-seconds-div" class="col-auto">
+                      <div class="btn-group dropstart">
+                        <button id="skip-seconds-btn" type="button" class="btn btn-sm btn-dark rounded-pill dropdown-toggle" tabindex="-1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Skip: 1 sec
+                        </button>
+                        <ul id="skip-seconds-list" class="dropdown-menu playback-list">
+                          <li><a class="dropdown-item small" href="#" data-skip-seconds="0.1">0.1</a></li>
+                          <li><a class="dropdown-item small" href="#" data-skip-seconds="0.25">0.25</a></li>
+                          <li><a class="dropdown-item small" href="#" data-skip-seconds="0.5">0.5</a></li>
+                          <li><a class="dropdown-item small active" href="#" data-skip-seconds="1">1</a></li>
+                          <li><a class="dropdown-item small" href="#" data-skip-seconds="2">2</a></li>
+                          <li><a class="dropdown-item small" href="#" data-skip-seconds="5">5</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <button id="replay-btn" type="button" class="btn btn-playback" tabindex="-1"><span class="material-symbols-rounded size-24">replay</span></button>
+                      <button id="play-pause-btn" type="button" class="btn btn-playback" tabindex="-1" data-state="play"><span class="material-symbols-rounded size-48">play_circle</span></button>
+                      <button id="forward-btn" type="button" class="btn btn-playback" tabindex="-1"><span class="material-symbols-rounded size-24">forward_media</span></button>
+                      <button id="mute-btn" type="button" class="btn btn-playback" tabindex="-1" data-state="mute"><span class="material-symbols-rounded size-24">volume_up</span></button>
+                    </div>
+                    <div id="playback-rate-div" class="col-auto">
+                      <div class="btn-group dropend">
+                        <button id="playback-rate-btn" type="button" class="btn btn-sm btn-dark rounded-pill dropdown-toggle" tabindex="-1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Speed: 1x
+                        </button>
+                        <ul id="playback-rate-list" class="dropdown-menu playback-list">
+                          <li><a class="dropdown-item small" href="#" data-playback-rate="0.25">0.25</a></li>
+                          <li><a class="dropdown-item small" href="#" data-playback-rate="0.5">0.5</a></li>
+                          <li><a class="dropdown-item small" href="#" data-playback-rate="0.75">0.75</a></li>
+                          <li><a class="dropdown-item small active" href="#" data-playback-rate="1">1</a></li>
+                          <li><a class="dropdown-item small" href="#" data-playback-rate="1.25">1.25</a></li>
+                          <li><a class="dropdown-item small" href="#" data-playback-rate="1.5">1.5</a></li>
+                          <li><a class="dropdown-item small" href="#" data-playback-rate="1.75">1.75</a></li>
+                          <li><a class="dropdown-item small" href="#" data-playback-rate="2">2</a></li>
+                        </ul>
+                      </div>
+                      <!-- <small><label for="playback-rate-input" class="form-label">Speed: 1x</label></small> -->
+                      <!-- <input id="playback-rate-input" type="range" class=" form-range" min="0.25" max="2" step="0.25" value="1"> -->
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="input-group input-group-sm">
+                        <input id="jump-to-frame-input" type="number" class="form-control" tabindex="-1" placeholder="Frame" min="0">
+                        <button class="btn btn-sm btn-dark" type="button" id="jump-to-frame-btn">Go</button>
+                      </div>
+                    </div>
+                    <!-- <div class="col-3">
+                      <div class="input-group input-group-sm">
+                        <input id="jump-to-minute-input" type="number" class="form-control" placeholder="Min." min="0">
+                        <span class="input-group-text">:</span>
+                        <input id="jump-to-second-input" type="number" class="form-control" placeholder="Sec." min="0">
+                        <button class="btn btn-sm btn-dark" type="button" id="jump-to-frame-btn">Go</button>
+                      </div>
+                    </div> -->
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary video column-->
+        <div id="secondary-video-col" class="col-4">
+          <div class="card">
+            <div class="card-header">
+              <div id="secondary-videos-control-div" class="d-flex justify-content-between">
+                <!-- <button id="" type="button" class="btn btn-icon-small">
+                  <span class="material-symbols-rounded">upload_file</span>
+                </button> -->
+                <div class="panel-title fw-bold">Secondary Views</div>
+                <div class="button-div">
+                  <button id="secondary-video-colsize-btn" class="btn btn-icon-small d-none" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Grid view">
+                    <span class="material-symbols-rounded" data-view-type="grid">grid_view</span>
+                  </button>
+                  <button id="secondary-video-panel-collapse-btn" class="btn btn-sm btn-icon-small panel-collapse-btn" tabindex="-1" data-bs-target="#secondary-video-panel-collapse" data-bs-toggle="collapse">
+                    <span class="material-symbols-rounded">visibility</span>
+                  </button>
+                </div>
+                <!-- <button class="btn btn-icon-small" type="button" data-bs-toggle="collapse" data-bs-target="#secondary-video-card-body" aria-expanded="false">
+                  <span class="material-symbols-rounded">expand_circle_up</span>
+                </button> -->
+              </div>
+            </div>
+            <div id="secondary-video-panel-collapse" class="collapse show" data-collapse-button="#secondary-video-panel-collapse-btn">
+              <div id="secondary-video-card-body" class="card-body p-0">
+                <button id="open-secondary-videos-btn" class="btn btn-icon-large mt-3" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Open a new video">
+                  <span class="material-symbols-rounded">video_file</span>
+                </button>
+                <div id="secondary-video-info-text" class="mb-4">
+                  Open additional videos here<br>They will be synced with the main view
+                </div>
+                <div id="secondary-video-row" class="row g-2 d-none"></div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="collapse show" id="collapseExample"> -->
+            <!-- <div class="card card-body"> -->
+            <!-- </div> -->
+          <!-- </div> -->
+          <div class="card mt-3">
+            <div class="card-header">
+              <div class="d-flex justify-content-between">
+                <div class="fw-bold">Behaviors</div>
+                <div class="button-div">
+                  <button id="label-panel-collapse-btn" class="btn btn-icon-small" tabindex="-1" data-bs-target="#label-tables-collapse" data-bs-toggle="collapse">
+                    <span class="material-symbols-rounded">visibility_off</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="label-tables-collapse" class="collapse show" data-collapse-button="#label-panel-collapse-btn">
+              <div id="label-tables-div" class="card-body">
+                <!-- <div class="tab-pane fade show active" id="behavior-table-tab-pane" role="tabpanel" aria-labelledby="behavior-table-tab" tabindex="0"> -->
+                <div class="d-flex justify-content-between mt-1">
+                  <div id="ethogram-save-status-div" class="d-flex align-items-start invisible">
+                    <button type="button" class="btn btn-icon-small ms-2 text-success save-status-btn" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Save status">
+                      <span class="material-symbols-rounded">published_with_changes</span>
+                    </button>
+                    <span class="fw-lighter last-edit-time" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Last edit"></span>
+                  </div>
+                  <div>
+                    <button id="import-behaviors-btn" type="button" class="btn btn-icon-small ms-2" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Import behaviors">
+                      <span class="material-symbols-rounded">upload</span>
+                    </button>
+                    <button id="export-ethogram-btn" type="button" class="btn btn-icon-small ms-2" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Export behaviors">
+                      <span class="material-symbols-rounded">download</span>
+                    </button>
+                  </div>
+                </div>
+                <!-- </div> -->
+                <div class="table-responsive">
+                  <table id="behavior-table" class="table table-sm table-striped table-hover small">
+                    <thead>
+                      <tr class="text-start">
+                        <th id="subject" scope="col">Subject</th>
+                        <th id="action" scope="col">Action</th>
+                        <th id="target" scope="col">Target</th>
+                        <th id="start" scope="col">Start</th>
+                        <th id="end" scope="col">End</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="empty-table-info">
+                        <td colspan="6">Records of behaviors will appear here</td>
+                      </tr>
+                    </tbody>
+                    <datalist id="subject-datalist"></datalist>
+                    <datalist id="target-datalist"></datalist>
+                    <datalist id="action-datalist"></datalist>
+                  </table>
+                </div>
+                <!-- <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="behavior-table-tab" data-bs-toggle="tab" data-bs-target="#behavior-table-tab-pane" type="button" role="tab">Behavior</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tracking-table-tab" data-bs-toggle="tab" data-bs-target="#tracking-table-tab-pane" type="button" role="tab">Tracking</button>
+                  </li>
+                </ul> -->
+                <!-- <div class="tab-content"> -->
+                  <!-- Behavior table tab -->
+                  <!-- <div class="tab-pane fade show active" id="behavior-table-tab-pane" role="tabpanel" aria-labelledby="behavior-table-tab" tabindex="0">
+                    <div class="d-flex justify-content-between mt-1">
+                      <div id="ethogram-save-status-div" class="d-flex align-items-start">
+                        <button type="button" class="btn btn-icon-small ms-2 text-success save-status-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Save status">
+                          <span class="material-symbols-rounded">published_with_changes</span>
+                        </button>
+                        <span class="fw-lighter last-edit-time" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Last edit"></span>
+                      </div>
+                      <div>
+                        <button id="import-ethogram-btn" type="button" class="btn btn-icon-small ms-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Import behaviors">
+                          <span class="material-symbols-rounded">upload</span>
+                        </button>
+                        <button id="export-ethogram-btn" type="button" class="btn btn-icon-small ms-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Export behaviors">
+                          <span class="material-symbols-rounded">download</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="table-responsive table-scrollable">
+                      <table id="behavior-table" class="table table-sm table-striped table-hover small">
+                        <thead>
+                          <tr class="text-start">
+                            <th id="subject" scope="col">Subject</th>
+                            <th id="action" scope="col">Action</th>
+                            <th id="target" scope="col">Target</th>
+                            <th id="start" scope="col">Start</th>
+                            <th id="end" scope="col">End</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="empty-table-info">
+                            <td colspan="6">Records of behaviors will appear here</td>
+                          </tr>
+                        </tbody>
+                        <datalist id="subject-datalist"></datalist>
+                        <datalist id="target-datalist"></datalist>
+                        <datalist id="action-datalist"></datalist>
+                      </table>
+                    </div>
+                  </div>  -->
+                  <!-- Tracking table tab -->
+                  <!-- <div class="tab-pane fade show" id="tracking-table-tab-pane" role="tabpanel" aria-labelledby="tracking-table-tab" tabindex="0">
+                    <div class="d-flex justify-content-between mt-1">
+                      <div>
+                        <button id="tracking-save-status-btn" type="button" class="btn btn-icon-small ms-2 d-none" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Status">
+                          <span class="material-symbols-rounded">check_circle</span>
+                        </button>
+                      </div>
+                      <div>
+                        <button id="undo-tracking-change-btn" type="button" class="btn btn-icon-small ms-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Undo">
+                          <span class="material-symbols-rounded">undo</span>
+                        </button>
+                        <button type="button" class="btn btn-icon-small ms-2 time-format-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Show seconds" data-time-format="frames">
+                          <span class="material-symbols-rounded">timer</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="table-responsive table-scrollable">
+                      <table id="tracking-table" class="table table-sm table-striped table-hover small">
+                        <thead>
+                          <tr>
+                            <th scope="col">Edit Type</th>
+                            <th scope="col">Old ID</th>
+                            <th scope="col">New ID</th>
+                            <th scope="col">Start</th>
+                            <th scope="col">End</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="empty-table-info">
+                            <td colspan="5">Modified tracking labels will appear here</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div> -->
+                                 
+                <!-- </div> -->
+              </div>
+            </div>
+          </div>
+          <!-- Action types -->
+          <div class="card mt-3">
+            <div class="card-header">
+              <div id="action-types-bar" class="d-flex justify-content-between align-items-center">
+                <div class="fw-bold">Actions/Ethogram</div>
+                <div class="button-div">
+                  <button id="open-action-types-btn" class="btn btn-icon-small" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Import actions">
+                    <span class="material-symbols-rounded">upload</span>
+                  </button>
+
+                  <button id="action-types-panel-collapse-btn" class="btn btn-icon-small" tabindex="-1" data-bs-target="#action-types-collapse" data-bs-toggle="collapse">
+                    <span class="material-symbols-rounded">visibility_off</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="action-types-collapse" class="collapse" data-collapse-button="#action-types-panel-collapse-btn">
+              <div id="action-types-div" class="card-body small">
+                <p>Upload a CSV file which contains the action types.<br>This will be used to generate a shortcut for each action.</p>
+                <!-- <div class="d-grid gap-2 col-8 mx-auto">
+                  <button class="btn btn-success btn-sm d-flex align-items-center justify-content-center" type="button" tabindex="-1">
+                    <span class="fw-light">Import example file</span>
+                    <span class="material-symbols-rounded size-20 ms-1 fw-light">upload_file</span>
+                  </button>
+                </div> -->
+
+                <!-- To be filled dynamically -->
+              </div>
+            </div>
+          </div>
+          <!-- Individual names -->
+          <div class="card mt-3">
+            <div class="card-header">
+              <div id="individual-names-bar" class="d-flex justify-content-between align-items-center">
+                <div class="fw-bold">Individuals</div>
+                <div class="button-div">
+                  <button id="open-name-list-file-btn" type="button" class="btn btn-icon-small" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Import names"><span class="material-symbols-rounded">upload</span></button>
+                  <button id="individuals-panel-collapse-btn" class="btn btn-icon-small" tabindex="-1" type="button" data-bs-target="#individual-names-collapse" data-bs-toggle="collapse">
+                    <span class="material-symbols-rounded">visibility_off</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="individual-names-collapse" class="collapse" data-collapse-button="#individuals-panel-collapse-btn">
+              <div class="card-body small">
+                <div id="individual-names-div">
+                  <div>Upload a CSV file which contains the individual names.<br>The file will be used to generate a shortcut for each individual.</div>
+                  <div class="fw-bold my-2">OR</div>
+                  <button id="assign-class-names-btn" type="button" role="button" class="btn btn-outline-dark">Assign class names to individuals</button>
+                  <!-- To be filled dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Notes -->
+          <div class="card mt-3">
+            <div class="card-header">
+              <div id="notes-bar" class="d-flex justify-content-between align-items-center">
+                <div class="fw-bold">
+                  Notes
+                </div>
+                <div>
+                  <button id="export-notes-btn" type="button" class="btn btn-icon-small" tabindex="-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Export notes"><span class="material-symbols-rounded">download</span></button>
+                  <button id="notes-panel-collapse-btn" class="btn btn-icon-small" tabindex="-1" type="button" data-bs-target="#notes-collapse" data-bs-toggle="collapse">
+                    <span class="material-symbols-rounded">visibility_off</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="notes-collapse" class="collapse" data-collapse-button="#notes-panel-collapse-btn">
+              <div class="card-body small">
+                <div id="notes-div">
+                  <div id="notes-save-status-div" class="d-flex align-items-start invisible">
+                    <button type="button" class="btn btn-icon-small ms-2 text-success save-status-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Save status">
+                      <span class="material-symbols-rounded">published_with_changes</span>
+                    </button>
+                    <span class="fw-lighter last-edit-time" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Last edit"></span>
+                  </div>
+                  <textarea class="form-control form-control-sm" id="notes-text-area" rows="5"></textarea>
+                  <!-- <button id="notes-save-changes-btn" type="button" class="btn btn-sm btn-primary mt-2">Save changes</button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- End of main container-->
+
+    <!-- Show video frame and time when hovering over the progress bar -->
+    <div id="hover-frame-div" class="position-absolute z-3 d-none text-center">
+      <canvas class="rounded border border-white text-bg-light"></canvas>
+      <div id="hover-time-div"><span class="badge text-bg-dark hover-time-text"></span></div>
+    </div>
+    
+    <!-- Toast for alerts -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="alert-toast" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header d-none">
+          <!-- <img src="..." class="me-2"> -->
+          <strong class="me-auto alert-title"></strong>
+          <!-- <small>11 mins ago</small> -->
+          <button type="button" class="btn-close" tabindex="-1" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="d-flex">
+          <div class="toast-body d-flex align-items-center">
+            <span class="material-symbols-rounded toast-icon text-success me-1">check_circle</span>
+            <span class="toast-message"></span>
+          </div>
+          <button id="no-header-toast-close-btn" type="button" class="btn-close me-2 m-auto" tabindex="-1" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+    </div> <!-- End of toast for alerts -->
+
+    <!-- Modal for alerts -->
+    <div class="modal fade" id="alert-modal" tabindex="-1" aria-labelledby="alert-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="alert-modal-label"></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-start">
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="alert-cancel-btn" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+            <button id="alert-confirm-btn" type="button" class="btn btn-outline-danger">Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for username and export directory selection -->
+    <div class="modal fade" id="username-modal" tabindex="-1" aria-labelledby="username-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Username Selection</h1>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+          <div class="modal-body">
+            <form class="row align-items-center justify-content-center needs-validation" novalidate>
+              <div class="col-md-8">
+                <label for="username-input" class="form-label">Username will be added to exported files</label>
+                <input type="text" class="form-control form-control-sm" id="username-input" required>
+                <div class="invalid-feedback">
+                  Please enter a valid username.
+                </div>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+              <div class="col-12 text-center">
+                <button id="username-confirm-btn" class="btn btn-primary confirm-btn mt-2" type="button" role="button">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for keyboard shortcuts -->
+    <div id="keyboard-shortcuts-list-modal" class="modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Keyboard Shortcuts</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="row align-items-center justify-content-between">
+                <div id="shortcuts-list-container" class="col-12">
+                  <!-- <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Seek backward (in seconds)
+                      <kbd>j</kbd>
+                    </li>
+                  </ul> -->
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for release notes -->
+    <div id="release-notes-modal" class="modal" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Release Notes <span class="version-info"></span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="col-9 mx-auto text-center">
+              <div class="fw-bold text-center mb-1">New Features</div>
+                <div class="text-center">
+                  Hold down your mouse over the main view and draw a rectangle to zoom in on a specific area. Release the mouse to view the zoomed area in a new window.
+                </div>
+                <video src="./videos/app_zoom_area_selection.mp4" muted loop class="border rounded shadow mb-3"></video>
+                <div class="text-center">
+                  Adjust the zoom scale on this window or use the settings menu.
+                </div>
+                <video src="./videos/app_adjust_zoom_scale.mp4" muted loop class="border rounded shadow mb-3"></video>
+                <div>
+                  The window for zoomed area can be moved and hidden freely.
+                </div>
+                <video src="./videos/draggable_zoom_window.mp4" muted loop class="border rounded shadow mb-3"></video>
+              </ul> 
+              <div class="fw-bold text-center mb-1">Improvements</div>
+              <ul class="text-start">
+                <li>The mouse pointer changes to a cursor over the tracks, indicating that they are clickable.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Modal for settings -->
+    <div id="settings-modal" class="modal" tabindex="-1">
+     <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Settings</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <!-- <div class="row align-items-center d-flex flex-column flex-wrap text-start"> -->
+                <!-- <div class="col-10"> -->
+                  <form>
+                    <div class="row mb-3">
+                      <label for="change-username-input" class="col-3 col-form-label col-form-label-sm text-start cursor-help" data-bs-toggle="tooltip" data-bs-placement="left"  data-bs-title="Username is saved to metadata file to keep track of data provenance">Username</label>
+                      <div class="col-auto">
+                        <div class="input-group input-group-sm">
+                          <input id="change-username-input" type="text" class="form-control" placeholder="Enter your username" aria-describedby="username-help-text">
+                          <button id="change-username-btn" class="btn btn-outline-secondary" type="button">Save</button>
+                        </div>
+                      </div>    
+                    </div>
+                    <div class="row mb-3">
+                     <label for="change-zoom-scale-input" class="col-3 col-form-label col-form-label-sm text-start cursor-help" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="To zoom in on a specific area, hold down the mouse button and drag a rectangle over the main view.">Zoom Scale</label>
+                     <div class="col-auto">
+                       <div class="input-group input-group-sm">
+                         <input id="change-zoom-scale-input" type="number" class="form-control" min="1" value="3" max="6" step="0.5" aria-describedby="zoom-scale-help-text">
+                         <span class="input-group-text">x</span>
+                       </div>
+                     </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="bounding-box-line-width-input" class="col-3 col-form-label col-form-label-sm text-start cursor-help" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Line width of tracking rectangles around subjects & objects">Bounding Box Line Width</label>
+                      <div class="col-auto">
+                        <div class="input-group input-group-sm">
+                         <input id="bounding-box-line-width-input" type="number" class="form-control" min="1" value="3" max="6" step="0.5">
+                          <span class="input-group-text">px</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="bounding-box-opacity" class="col-3 col-form-label col-form-label-sm text-start cursor-help" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Opacity of tracking rectangles around subjects & objects">Bounding Box Opacity</label>
+                      <div class="col-auto">
+                        <div class="input-group input-group-sm">
+                         <input id="bounding-box-opacity" type="number" class="form-control" min="10" value="100" max="100" step="10">
+                          <span class="input-group-text">%</span>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="row mb-3">
+                      <label for="class-text-display-select" class="col-3 col-form-label col-form-label-sm text-start cursor-help" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Options for rendering class text on tracking rectangles">Bounding Box Class Display</label>
+                      <div class="col-auto">
+                        <div id="class-text-display-select" class="input-group input-group-sm">
+                          <select class="form-select form-select-sm">
+                            <option selected value="show-class-id">Only class ID</option>
+                            <option value="show-class-name">Only class name</option>
+                            <option value="show-both-class-id-name">Both class ID and names</option>
+                            <option value="show-both-class-id-name">Neither class ID nor names</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div> -->
+                    <div class="row mb-3">
+                      <div id="class-settings-div" class="col">
+                        <!-- To be filled dynamically -->
+                         
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div id="assign-class-names-to-indivs-settings-btn" class="col d-grid d-none">
+                        <button class="btn btn-sm btn-outline-secondary" role="button" type="button">Assign class names to individuals</button>
+                      </div>  
+                    </div>
+
+                    
+                    <!-- <div class="form-check form-switch form-check-reverse form-check-inline mt-3">
+                      <input class="form-check-input" type="checkbox" role="switch" id="auto-update-switch" checked>
+                      <label class="form-check-label" for="auto-update-switch">Automatic Updates</label>
+                    </div> -->
+                  </form>
+                  <!-- <div class="d-grid mt-5">
+                    <button id="check-updates-btn" class="btn btn-outline-primary btn-sm" role="button" tabindex="-1"><span class="small align-self-center">Check for updates</span></button>
+
+                  </div> -->
+                  <div class="d-grid mt-2">
+                    <button id="clear-app-data-btn" type="button" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="All unexported files will be deleted! Exported files will remain." role="button" tabindex="-1">Clear app data</button>
+                    <div class="version-info small my-2 fw-bold text-center"></div>
+                  </div>
+                <!-- </div> -->
+              <!-- </div>               -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for help -->
+    <div id="help-modal" class="modal" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Help</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" data-bs-spy="scroll" data-bs-target="#help-toc" data-bs-smooth-scroll="true" tabindex="0">
+            <div class="row">
+              <div class="col-3">
+                <!-- <div id="help-toc" class="list-group position-fixed text-start small">
+
+                </div> -->
+                <nav id="help-toc" class="h-100 flex-column align-items-stretch pe-4 border-end position-fixed text-start small">
+                  <nav  class="nav nav-pills flex-column">
+                  </nav>
+                </nav>
+              </div>
+              <div class="col-9 text-start mb-3 ps-4">
+                <div id="help-workflow" class="help-item">
+                  <h5>Workflow</h5>
+                  <p>
+                    First, upload the files for actions and individuals <a href="#help-file-format">in the required format</a>. After you upload a file, a keyboard shortcut will be generated automatically for each item in the file. You can also change these shortcuts later.
+                  </p>
+                  <video src="./videos/hotkey_change.mp4" class="border rounded shadow help-video" muted loop></video>
+                  <div id="help-enable-labeling" class="mt-3 fw-bold help-subitem">Enable labeling</div>
+                  <p>
+                    To start recording behaviors with keyboard shortcuts, first enable the labeling mode. You can do this either by toggling the relevant button on the main view panel or by pressing the assigned shortcut. 
+                  </p>
+                  <video src="./videos/labeling_mode_toggle.mp4" class="border rounded shadow help-video" muted loop></video>
+                  <p>
+                    When you are typing, the labeling is disabled automatically to prevent any clashes with the shortcuts.
+                  </p>
+                  <div id="help-record-behaviors" class="fw-bold help-subitem">Record Behaviors</div>
+                  <p>
+                    Each observation of a behavior consists of a subject, an action and optionally a target.
+                  <p>
+                    The frame in which you press the shortcut for a subject will be recorded as the start frame. Similarly, the frame in which you press the shortcut assigned to a target or ending an observation without a target will be recorded as the end frame.
+                  </p>
+                  <p>
+                    There are three ways to record a behavior.
+                  </p>
+                  <div class="fw-bold">1. Behaviors with a target</div>
+                  <ul>
+                    <li>Go to the start frame of the behavior</li>
+                    <li>Press the shortcut assigned to the subject of the behavior</li>
+                    <li>Press the shortcut assigned to the action of the behavior</li>
+                    <li>Go to the end frame of the behavior </li>
+                    <li>Press the shortcut assigned to the target of the behavior (either a box or one of the individuals)</li>
+                  </ul>
+
+                  <div class="fw-bold">2. Behaviors without a target</div>
+                  <p>
+                    There are two ways to record a behavior without a target.
+                  </p>
+                  <div class="fw-bold">2.1. Single behavior without a target</div>
+                  <ul>
+                    <li>Go to the start frame of the behavior </li>
+                    <li>Press the shortcut assigned to the subject of the behavior </li>
+                    <li>Press the shortcut assigned to the action of the behavior</li>
+                    <li>Go to the end frame of the behavior</li>
+                    <li>Press the shortcut assigned to ending the current observation</li>
+                  </ul>
+
+                  <div class="fw-bold">2.2. Consecutive behaviors with the same subject</div>
+                  <ul>
+                    <li>Go to the start frame of the first behavior</li>
+                    <li>Press the shortcut assigned to the subject of the first behavior</li>
+                    <li>Press the shortcut assigned to the action of the first behavior</li>
+                    <li>Go to the end frame of the first behavior (this will also be the start frame of the second behavior)</li>
+                    <li>Press the shortcut assigned to the action of the next behavior</li>
+                  </ul>
+                  <p>
+                    The first behavior will be recorded without a target.
+                  </p>
+                  <p>
+                    The frame in which you pressed the shortcut for the second action will be recorded as the end frame of the first behavior. This frame will also be recorded as the start frame of the second behavior. Now, the app will wait for you to select a target for the second observation or ending the observation without a target. You should then go to the frame where the second behavior ends and press the shortcut assigned to your selection for the target.
+                  </p>
+                  <div id="help-identify-individual" class="help-subitem fw-bold">Identify Individuals</div>
+                  <p>
+                    Right click on a bounding box over the main video, select an individual's name, and then click <span class="badge text-bg-primary">Save</span>.
+                  </p>
+                  <video src="./videos/labeling_individuals.mp4" class="border rounded shadow help-video" muted loop></video>
+                </div>               
+                <div id="help-zoom" class="help-item">
+                  <h5>Zoom</h5>
+                  <p>
+                    You can zoom into a specific region of the main view.
+                  </p>
+                  <p>
+                    Hold down your mouse over the main view and draw a rectangle to zoom in on a specific area. Release the mouse to view the zoomed area in a new window.
+                  </p>
+                  <video src="./videos/app_zoom_area_selection.mp4" class="border rounded shadow help-video" muted loop></video>
+                  <p>
+                    Adjust the zoom scale on this window or use the settings menu.
+                  </p>
+                  <video src="./videos/app_adjust_zoom_scale.mp4" class="border rounded shadow help-video" muted loop></video>
+                  <p>
+                    The window for zoomed area can be moved and hidden freely.
+                  </p>
+                  <video src="./videos/draggable_zoom_window.mp4" class="border rounded shadow help-video" muted loop></video>
+                </div>
+                <div id="help-save-work" class="help-item">
+                  <h5>Save Your Work</h5>
+                  <p>
+                    Your observations, tracking edits and notes linked to the main view are always saved automatically.
+                  </p> 
+                  <p>
+                    When you open a new video as the main view with any previous work linked to it, the app will import them. For example, you were working on Video A, then opened Video B before completing your work on the Video A. You worked a bit on Video B, then resumed your work on Video A. All your work linked to Video A (behaviors, tracking edits, notes, etc.) will be automatically reimported. This is also true when you reopen the Video B.
+                  </p>
+                  <p>
+                    You can export all files linked to the main view whenever you prefer. The files will be exported into a folder named after the main view. The app will keep your work even after you export these files.
+                  </p>
+                  <video src="./videos/export_all_files.mp4" class="border rounded shadow help-video" muted loop></video>
+
+                </div>
+                <div id="help-file-format" class="help-item">
+                  <h5>File Formats</h5>
+                  <p>
+                    To start labeling behaviors, text files for action types, modifiers and individual names must be uploaded first. Each item in these files must be separated with a comma. For consistency, please do not put a space within an item. For example, if an item in the action list describes a "successful push", write down either "successful_push" or "SuccessfulPush". Other than this, there is no restriction on the names.
+                  </p>
+                </div>
+                <div id="help-clear-app-data" class="help-item">
+                  <h5>Clear App Data</h5>
+                  <p>
+                    If necessary, you can clear the app data via the <em>Settings</em> menu. This can be useful as a last resort solution if you encounter any issues that cannot be resolved by any other way. However, <strong>clearing the app data will result in losing all unexported work</strong>. Please export your work before using this option.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for giving feedback -->
+    <!-- <div id="feedback-modal" class="modal" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Feedback</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+          </div>
+        </div>
+      </div>
+    </div> -->
+    
+    <!-- Modal for snapshots -->
+    <div class="modal fade" id="snapshot-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="snapshot-modal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="snapshot-modal-title">Snapshot</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- <div class="container-fluid"> -->
+              <!-- <div class="row"> -->
+                <!-- <div class="col"> -->
+                  <div id="snapshot-div">
+                    <img id="snapshot" src="" alt="Snapshot" class="img-fluid d-none">
+                  </div>
+
+                <!-- </div> -->
+              <!-- </div> -->
+            <!-- </div> -->
+          </div>
+          <div class="modal-footer justify-content-between">
+            <div class="d-flex d-flex-row">
+              <div class="rounded bg-secondary-subtle me-1 px-1">
+                <div class="form-check form-switch form-control-sm me-1">
+                  <input class="form-check-input" type="checkbox" role="switch" id="hide-tracking-btn">
+                  <label class="form-check-label" for="hide-tracking-btn">Hide labels</label>
+                </div>
+              </div>
+              <div class="rounded bg-secondary-subtle me-1 px-1">
+                <div class="form-check form-switch form-control-sm">
+                  <input class="form-check-input" type="checkbox" role="switch" id="export-snapshots-labels-btn">
+                  <label class="form-check-label cursor-help" for="export-snapshots-labels-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Saves tracking label data to a text file in the chosen directory">Export labels</label>
+                </div>
+              </div>
+              <div class="rounded bg-secondary-subtle me-1 px-1">
+                <div class="form-check form-switch form-control-sm">
+                  <input class="form-check-input" type="checkbox" role="switch" id="reset-class-running-counts-btn">
+                  <label class="form-check-label cursor-help" for="reset-class-running-counts-btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Resets the running counter for each class across snapshots">Reset class counter</label>
+                </div>
+              </div>    
+            </div>
+            <div>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+              <button id="save-snapshot-btn" type="button" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for individual names -->
+    <div class="modal fade" id="names-list-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="names-list-modal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Individuals</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="row align-items-center justify-content-between">
+                <div id="names-list-container" class="col-12">
+                <!-- To be filled dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for exporting all edited files -->
+    <div id="export-all-modal" class="modal" tabindex="-1">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Export Your Work</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <form class="row align-items-center mb-3">
+                <div class="col-12 h6 text-center">Main Export Directory
+                  <button id="open-export-dir-btn" class="btn btn-icon-small" type="button"><span class="material-symbols-rounded size-16">launch</span></button>
+                </div>
+                <div class="input-group input-group-sm">
+                  <input id="change-export-dir-input" type="text" class="form-control" placeholder="Choose a directory to export your work" disabled>
+                  <button id="change-export-dir-btn" class="btn btn-outline-secondary" type="button">Choose Directory</button>
+                </div>
+                <!-- Show information about the export directory -->
+                <div id="export-dir-info" class="form-text text-start"></div>
+              </form>
+              <div class="row align-items-center">
+                <div class="h6 col-12 text-center">Files</div>
+              </div>
+              <ul class="list-group text-start">
+                <li class="list-group-item d-flex align-items-center justify-content-between" data-file-type="tracking">
+                  <div>
+                    <div class="export-item-title">Tracking</div>
+                    <div class="export-info-text text-body-secondary">Tracking file without user edits</div>
+                  </div>
+                  <div class="loading-indicator spinner-border spinner-border-sm text-primary d-none" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <span class="pending-indicator material-symbols-rounded" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not exported">unknown_document</span>
+                  <span class="success-indicator badge text-bg-success d-none">Exported</span>
+                  <span class="warning-indicator badge text-bg-warning d-none">Not found</span>
+                  <span class="error-indicator badge text-bg-danger d-none">Failed</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-file-type="identification">
+                  <div>
+                    <div class="export-item-title">Identification</div>
+                    <div class="export-info-text text-body-secondary">Tracking file with user edits</div>
+                  </div>
+                  <div class="loading-indicator spinner-border spinner-border-sm text-primary d-none" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <span class="pending-indicator material-symbols-rounded" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not exported">unknown_document</span>
+                  <span class="success-indicator badge text-bg-success d-none">Exported</span>
+                  <span class="warning-indicator badge text-bg-warning d-none">Not found</span>
+                  <span class="error-indicator badge text-bg-danger d-none">Failed</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-file-type="behaviors">
+                  <div>
+                    <div class="export-item-title">Behaviors</div>
+                    <div class="export-info-text text-body-secondary">CSV file for record of behaviors</div>
+                  </div>
+                  <div class="loading-indicator spinner-border spinner-border-sm text-primary d-none" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <span class="pending-indicator material-symbols-rounded" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not exported">unknown_document</span>
+                  <span class="success-indicator badge text-bg-success d-none">Exported</span>
+                  <span class="warning-indicator badge text-bg-warning d-none">Not found</span>
+                  <span class="error-indicator badge text-bg-danger d-none">Failed</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-file-type="notes">
+                  <div>
+                    <div class="export-item-title">Notes</div>
+                    <div class="export-info-text text-body-secondary">Text file for user notes</div>
+                  </div>
+                  <div class="loading-indicator spinner-border spinner-border-sm text-primary d-none" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <span class="pending-indicator material-symbols-rounded" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not exported">unknown_document</span>
+                  <span class="success-indicator badge text-bg-success d-none">Exported</span>
+                  <span class="warning-indicator badge text-bg-warning d-none">Not found</span>
+                  <span class="error-indicator badge text-bg-danger d-none">Failed</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-file-type="metadata">
+                  <div>
+                    <div class="export-item-title">Metadata</div>
+                    <div class="export-info-text text-body-secondary">JSON file for metadata</div>
+                  </div>
+                  <div class="loading-indicator spinner-border spinner-border-sm text-primary d-none" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <span class="pending-indicator material-symbols-rounded" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Not exported">unknown_document</span>
+                  <span class="success-indicator badge text-bg-success d-none">Exported</span>
+                  <span class="warning-indicator badge text-bg-warning d-none">Not found</span>
+                  <span class="error-indicator badge text-bg-danger d-none">Failed</span>
+                </li>
+              </ul>
+              <button id="show-exported-files-btn" type="button" class="btn btn-link invisible">
+                Show files in folder
+                <span class="material-symbols-rounded size-16">north_east</span>
+              </button>
+            </div>  
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="export-canncel-btn" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="export-confirm-btn" type="button" class="btn btn-primary">Export</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for assigning class names to class IDs in the tracking file -->
+    <div class="modal fade" id="class-names-modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Class Identification</h1>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3 modal-text">
+                <!-- To be filled dynamically -->
+            </div>
+            <!-- Input elements for entering class names -->
+            <form id="class-names-colors-form" class="row needs-validation mb-3 text-start" novalidate>
+              <div class="input-col col-12">
+                <!-- To be filled dynamically -->
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-check form-switch form-control-sm">
+                    <input class="form-check-input" type="checkbox" role="switch" id="btn-assign-class-names-modal">
+                    <label class="form-check-label cursor-help" for="btn-assign-class-names-modal" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Name individuals with their class names">Assign class names to individuals</label>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-auto mt-1">
+                <button class="btn btn-primary confirm-btn" type="button" role="button">Save</button>
+              </div>
+            </form>
+            <!-- Image element for showing a frame which contains at least one member from each class -->
+            <img src="" class="img-fluid d-none">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Show zoomed video region in a separate element -->
+    <div id="zoom-video-div" class="d-none shadow-lg text-bg-light border border-secondary rounded position-absolute">
+      <div id="zoom-btn-panel" class="d-flex justify-content-between align-items-start">
+        <div class="fw-bold order-first small">Zoomed Area</div>
+        <div id="zoom-scale-dropdown" class="btn-group dropup mx-auto small d-flex align-items-center">
+          <button class="btn btn-sm btn-dark badge dropdown-toggle fw-lighter" type="button" data-bs-toggle="dropdown" aria-expanded="false" tabindex="-1">
+            Zoom Scale
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item small fw-lighter active" href="#" data-zoom-scale="2">2x</a></li>
+            <li><a class="dropdown-item small fw-lighter" href="#" data-zoom-scale="3">3x</a></li>
+            <li><a class="dropdown-item small fw-lighter" href="#" data-zoom-scale="4">4x</a></li>
+            <li><a class="dropdown-item small fw-lighter" href="#" data-zoom-scale="5">5x</a></li>
+            <li><a class="dropdown-item small fw-lighter" href="#" data-zoom-scale="6">6x</a></li>
+          </ul>
+        </div>
+        <div class="d-flex zoom-title mx-auto align-items-start"></div>
+        <div class="d-flex align-items-start">
+          <button type="button" class="btn btn-icon-small btn-collapse" tabindex="-1"><span class="material-symbols-rounded">collapse_content</span></button>
+          <button type="button" class="btn btn-icon-small btn-dismiss" tabindex="-1"><span class="material-symbols-rounded">close</span></button>
+        </div>
+      </div>
+      <div class="position-relative ratio ratio-16x9">
+        <!-- <div class="d-flex align-items-center"> -->
+        <canvas id="zoom-video-canvas" class="position-absolute"></canvas>
+  
+        <!-- </div> -->
+        <!-- <button id="zoom-panel-collapse-btn" class="btn btn-sm btn-icon-small panel-collapse-btn" tabindex="-1" data-bs-target="#zoom-panel-collapse" data-bs-toggle="collapse"><span class="material-symbols-rounded">visibility</span></button> -->
+        <!-- <canvas id="zoom-tracking-canvas" class="position-absolute"></canvas> -->
+
+      </div>
+    </div>
+
+    <!-- Element for interpolating bounding boxes -->
+    <!-- <div id="interpolation-confirm-div" class="card position-absolute d-none vw-25">
+      <div class="card-body">
+        <h5 class="card-title">Interpolate bounding boxes for other frames?</h5>
+        <p class="card-text">
+          Go to another frame and draw a bounding box around the same subject.<br> The bounding boxes for the frames in between will be interpolated.
+        </p>
+        <button type="button" class="btn btn-sm btn-secondary cancel-btn">No, do not interpolate</button>
+        <button type="button" class="btn btn-sm btn-primary confirm-btn">Yes, let me draw another box</button>
+      </div>
+    </div> -->
+
+    
+
+    <!-- You can also require other files to run in this process -->
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./renderer.js"></script>
+  </body>
+</html>

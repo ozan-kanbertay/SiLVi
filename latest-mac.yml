@@ -1,0 +1,8 @@
+version: 0.4.0
+files:
+  - url: 'https://bitbucket.org/kanbertay/ethowatch/downloads/'
+    sha512: '2UvglGIpdDZEOjnUNNVjL5SoKa8cQ7LkbpCI/HBbOo2JZlIRxnns4WU6rfc/fWGkLeOfdh7dKwdTd0dTXWk2A=='
+    size: '91421057'
+path: 'ethowatch-0.4.0-x64.dmg'
+sha512: '2UvglGIpdDZEOjnUNNVjL5SoKa8cQ7LkbpCI/HBbOo2JZlIRxnns4WU6rfc/fWGkLeOfdh7dKwdTd0dTXWk2A=='
+releaseDate: '2025-02-06T21:53:14.058Z'

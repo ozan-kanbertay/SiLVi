@@ -1,0 +1,7 @@
+appId: "ethowatch"
+directories:
+  output: "out"
+publish:
+  provider: "bitbucket"
+  owner: "kanbertay"
+  slug: 'ethowatch-updates'

@@ -1,0 +1,664 @@
+:root {
+  --class-color-text: #000000;  /* For displaying assigned class colors */
+  --canvas-popover-width: 300px;
+  
+}
+/* Consider title bar customizations (source: https://github.com/WICG/window-controls-overlay/blob/main/explainer.md#example */
+
+/* Google Material Symbols */
+@font-face {
+  font-family: 'Material Symbols Rounded';
+  font-style: normal;
+  src: url(./material-symbols/MaterialSymbolsRounded[FILL\,GRAD\,opsz\,wght].woff2) format('woff2');
+}
+
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
+span.size-16 {
+  font-size: 16px;
+  font-variation-settings: 'opsz' 16;
+}
+
+/* Recommended icon sizes */
+span.size-20 {
+  font-size: 20px;
+  font-variation-settings: 'opsz' 20;
+}
+span.size-24 {
+  font-size: 24px;
+  font-variation-settings: 'opsz' 24;
+}
+span.size-40 {
+  font-size: 40px;
+  font-variation-settings: 'opsz' 40;
+}
+span.size-48 {
+  font-size: 48px;
+  font-variation-settings: 'opsz' 48;
+}
+
+span.filled {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' -25,
+  'opsz' 24
+}
+
+/* Rules for using icons as black on a light background. */
+.dark {
+  background: inherit;
+  color: rgba(255, 255, 255, 1);
+  font-variation-settings: 'GRAD' -25;
+  
+}
+
+.dark-inactive {
+  background: black;
+  color: rgba(255, 255, 255, 0.3);
+  font-variation-settings: 'GRAD' -25;
+}
+
+
+.btn-no-style {
+  background-color: none;
+  border: none;
+  border-radius: 2px;
+  padding: 1px;
+}
+
+.no-padding {
+  background-color: none;
+  border: none;
+  border-radius: 0px;
+  padding: 1px;
+}
+
+/* Playback button styling */
+.btn-label-table {
+  background-color: none;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.btn-label-table span.material-symbols-rounded {
+  font-variation-settings: 
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0
+}
+
+
+/* Playback button styling */
+.btn-playback {
+  background-color: none;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  /* width: 0px; */
+  /* height: 80px; */
+  /* font-size: 16px; */
+  /* cursor: pointer; */
+}
+
+.btn-playback span {
+  font-variation-settings: 
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0
+}
+
+/* Darker background on mouse-over */
+.btn-playback:focus {
+  outline: none
+}
+
+.btn-playback:focus-visible {
+  outline: 2px solid whitesmoke;
+}
+
+/* Large buttons with icons on the main interface */
+.btn-icon-large {
+  background-color: none;
+  border: none;
+  border-radius: 2px;
+  padding: 0px;
+}
+
+.btn-icon-large span.material-symbols-rounded {
+  font-size: 48px;
+  font-variation-settings: 
+  'opsz' 48,
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0
+}
+
+.btn-icon-large:focus {
+  outline: none
+}
+
+.btn-icon-large:focus-visible {
+  outline: 2px solid whitesmoke;
+}
+
+.btn-icon-normal {
+  background-color: none;
+  border: none;
+  border-radius: 0px;
+  padding: 0px;
+}
+
+.btn-icon-normal span.material-symbols-rounded {
+  font-size: 24px;
+  font-variation-settings: 
+  'opsz' 24,
+  'FILL' 0,
+  'wght' 200,
+  'GRAD' 0
+}
+
+/* .no-fill {
+  font-variation-settings: 
+  'FILL' 0,
+} */
+
+.main-panel-btn {
+  /* background-color: none; */
+  /* border: none; */
+  /* border-radius: 0px; */
+  /* padding: 0px; */
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  font-variation-settings: 
+  'opsz' 20,
+  'FILL' 0,
+  'wght' 100,
+  'GRAD' -25,
+} 
+
+.main-panel-btn-div {
+  display: inline-flex;
+  padding: 0%;
+  height: fit-content;
+  width: fit-content;
+}
+
+
+/* Small buttons with icons on the main interface */
+.btn-icon-small {
+  background-color: none;
+  border: none;
+  border-radius: 0px;
+  padding: 0;
+}
+
+.btn-icon-small span.material-symbols-rounded {
+  font-size: 20px;
+  font-variation-settings: 
+  'opsz' 20,
+  'FILL' 0,
+  'wght' 100,
+  'GRAD' -25,
+}
+
+.btn-icon-small:focus {
+  outline: none
+}
+
+.btn-icon-small:focus-visible {
+  outline: 1px solid whitesmoke;
+}
+
+.btn-tiny {
+  --bs-btn-padding-y: .1rem;
+  --bs-btn-padding-x: .4rem;
+  --bs-btn-font-size: .75rem;
+}
+
+.btn-tiny span.material-symbols-rounded {
+  font-size: 20px;
+  font-variation-settings: 'opsz' 20;
+  font-variation-settings: 
+  'FILL' 1,
+  'wght' 100,
+  'GRAD' -25
+
+}
+
+.toast-icon {
+  font-size: 24px;
+  font-variation-settings: 'opsz' 24;
+  font-variation-settings: 
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' -25
+}
+
+.action-table-icon {
+  font-size: 20px;
+  font-variation-settings: 'opsz' 20;
+  font-variation-settings: 
+  'FILL' 0,
+  'wght' 300,
+  'GRAD' 0
+}
+
+
+#play-pause-btn span {
+  font-family: 'Material Symbols Rounded';
+  font-size: 48px;
+  content: attr(data-icon);
+}
+
+#progress-range {
+  accent-color: blue;
+}
+
+#right-click-canvas-div {
+  max-width: fit-content;
+  max-height: 10px;
+  z-index: 9999;
+}
+
+#main-video-div {
+  overflow: visible;
+}
+
+#new-bounding-box-confirm-div {
+  min-width: 241px;
+  width: fit-content;
+  height: fit-content;
+  text-align: center;
+  z-index: 9999;
+}
+#new-bounding-box-confirm-div * {
+  z-index: 9999;
+}
+
+#new-bounding-box-confirm-div input[type="color"] {
+  min-width: 30x;
+  width: fit-content;
+}
+
+#class-choice-new-bbox {
+  min-width: fit-content;
+}
+
+#class-choice-new-bbox {
+  font-size: x-small;
+}
+
+#interpolation-confirm-div {
+  /* width: fit-content; */
+  height: fit-content;
+}
+
+#time-marker {
+  height: 8px;
+  width: 6px;
+  border-radius: 50%;
+  transition: left 0.3s ease-in-out;
+  pointer-events: none; /* Ensure the marker does not interfere with hover events */
+}
+
+.secondary-video {
+  cursor: pointer;
+}
+
+.secondary-video-title {
+  font-size: xx-small;
+}
+
+.x-small {
+  font-size: x-small;
+}
+
+.xx-small {
+  font-size: xx-small;
+}
+
+
+#progress-bar {
+  height: 8px;
+}
+
+/* Clickable rows in tables */
+/* tr:hover {
+  cursor: pointer;
+} */
+
+video {
+  /* override other styles to make responsive */
+  width: 100%    !important;
+  height: auto   !important;
+}
+
+/* Draggable elements */
+.draggable {
+  /* position: absolute; */
+  cursor: move;
+}
+
+.resizable {
+  overflow: auto;
+  resize: horizontal;
+}
+
+.video-container {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease; /* Smooth transition */
+}
+
+.video-container:hover .overlay {
+  opacity: 1; /* Show overlay on hover */
+}
+
+.playback-list {
+  min-width: fit-content;
+}
+
+.playback-list .active {
+  background-color:rgba(16, 16, 16, 0.8)
+}
+
+/* .playback-list .dropdown-item:focus {
+  background-color: rgba(16, 16, 16, 0.8)
+} */
+
+#zoom-scale-dropdown .dropdown-menu {
+  min-width: fit-content;
+}
+
+#zoom-scale-dropdown .active {
+  background-color:rgba(16, 16, 16, 0.8)
+}
+
+
+
+.table-scrollable {
+  display: block;
+  width: 100%;
+  overflow-y: auto;
+  max-height: 200px;    
+}
+
+.hotkey-tooltip {
+  --bs-tooltip-max-width: 500px;
+  /* --bs-tooltip-bg: var(--bs-primary); */
+  /* --bs-tooltip-color: var(--bs-white); */
+}
+
+.canvas-popover {
+  --bs-popover-font-size: 12px;
+  --bs-popover-max-width: 20px;
+  /* --bs-popover-body-color: var(--bs-danger); */
+  /* --bs-popover-bg: var(--bs-warning); */
+  /* --bs-popover-header-font-size: 12px; */
+  /* --bs-popover-border-color: var(--bd-bg-dark); */
+  /* --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem; */
+
+}
+
+.toast-popover {
+  z-index: 10000 !important;
+  --bs-popover-header-bg: var(--bs-warning-bg-subtle);
+  --bs-popover-border-color: var(--bs-warning-border-subtle);
+}
+
+.ethogram-font .form-control {
+  font-size: 11px;
+  min-width: 80px;
+  max-width: fit-content;
+}
+
+.last-edit-time {
+  font-size: 12px;
+}
+
+#hover-time-div {
+  font-size: small;
+  font-weight: bold;
+}
+
+#progress-bar {
+  cursor: pointer;
+  height: 12px;
+}
+
+.control-bar-font {
+  font-size: 12px;
+}
+
+#current-frame {
+  min-width: 72px;
+}
+
+#total-frames {
+  min-width: 72px;
+}
+
+.export-info-text {
+  font-size: small;
+}
+
+.export-item-title {
+  font-size: medium;
+  font-weight: bold;
+}
+
+/* td.input-group {
+  width: auto;
+  font-size: 10px;
+} */
+
+/* body {
+  margin: 0;
+} */
+
+.title-bar {
+  /* height: 35px; */
+  /* background: black; */
+  /* color: white; */
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  padding-left: 80px;
+  padding-right: 80px;
+  /* padding-top: 3px; */
+  /* padding-bottom: 1px; */
+  app-region: drag;
+}
+
+.non-draggable {
+  app-region: no-drag;
+}
+
+.title-bar-text {
+  font-size: xx-small;
+  height: 20px;
+}
+
+#zoom-video-div {
+  cursor: move;
+  bottom: 50px;
+  right: 50px;
+  /* min-width: fit-content; */
+  /* max-width: fit-content; */
+  height: fit-content;
+  /* width: fit-content; */
+  /* position: absolute; */
+}
+
+#zoom-video-canvas {
+  top: 0;
+  left: 0;
+}
+
+#zoom-btn-panel {
+  /* width: inherit; */
+  
+}
+
+.progress-cursor, .progress-cursor * {
+  cursor: progress !important;
+}
+
+.error-popover {
+  --bs-popover-max-width: var(--canvas-popover-width);
+  --bs-popover-border-color: var(--bs-danger);
+  --bs-popover-header-bg: var(--bs-danger);
+  --bs-popover-header-color: var(--bs-white);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+}
+
+.error-subtle-popover {
+  --bs-popover-max-width: var(--canvas-popover-width);
+  --bs-popover-border-color: var(--bs-danger-border-subtle);
+  --bs-popover-header-bg: var(--bs-danger-bg-subtle);
+  --bs-popover-header-color: var(--bs-dark);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+}
+
+.info-popover {
+  --bs-popover-max-width: var(--canvas-popover-width);
+  --bs-popover-border-color: var(--bs-info);
+  --bs-popover-header-bg: var(--bs-info);
+  --bs-popover-header-color: var(--bs-dark);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+}
+
+.info-subtle-popover {
+  --bs-popover-max-width: var(--canvas-popover-width);
+  --bs-popover-border-color: var(--bs-info-border-subtle);
+  --bs-popover-header-bg: var(--bs-info-bg-subtle);
+  --bs-popover-header-color: var(--bs-dark);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+}
+
+.primary-popover {
+  --bs-popover-max-width: var(--canvas-popover-width);
+  --bs-popover-border-color: var(--bs-primary);
+  --bs-popover-header-bg: var(--bs-primary);
+  --bs-popover-header-color: var(--bs-white);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+}
+
+.success-popover {
+  --bs-popover-max-width: var(--canvas-popover-width);
+  --bs-popover-border-color: var(--bs-success);
+  --bs-popover-header-bg: var(--bs-success);
+  --bs-popover-header-color: var(--bs-white);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+}
+
+.success-subtle-popover {
+  --bs-popover-max-width: var(--canvas-popover-width);
+  --bs-popover-border-color: var(--bs-success-border-subtle);
+  --bs-popover-header-bg: var(--bs-success-bg-subtle);
+  --bs-popover-header-color: var(--bs-dark);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+}
+
+.warning-subtle-popover {
+  --bs-popover-max-width: var(--canvas-popover-width);
+  --bs-popover-border-color: var(--bs-warning-border-subtle);
+  --bs-popover-header-bg: var(--bs-warning-bg-subtle);
+  --bs-popover-header-color: var(--bs-dark);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+}
+
+.warning-popover {
+  --bs-popover-max-width: var(--canvas-popover-width);
+  --bs-popover-border-color: var(--bs-warning);
+  --bs-popover-header-bg: var(--bs-warning);
+  --bs-popover-header-color: var(--bs-dark);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+}
+
+.dark-popover {
+  --bs-popover-max-width: var(--canvas-popover-width);
+  --bs-popover-border-color: var(--bs-dark);
+  --bs-popover-header-bg: var(--bs-dark);
+  --bs-popover-header-color: var(--bs-white);
+  --bs-popover-body-padding-x: 1rem;
+  --bs-popover-body-padding-y: .5rem;
+}
+
+.popover-header {
+  text-align: start;
+}
+
+
+.cursor-help {
+  cursor: help;
+}
+
+/* #new-bounding-box-confirm-btn {
+  width: fit-content;
+  height: fit-content;
+} */
+
+#zoom-video-div {
+  z-index: 4;
+}
+
+.hotkey-item:focus {
+  outline: 4px solid var(--bs-primary-border-subtle);
+  outline-offset: -4px;
+  border-radius: 5px;
+}
+
+
+
+.class-color-text {
+  color: white;
+  background-color: var(--class-color-text);
+
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,40 @@
+{
+  "name": "SILVI",
+  "version": "0.4.0",
+  "description": "Simple Interface for Labeling Video Interactions",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "dist-yml": "electron-builder --dir --config electron-updater.yml"
+  },
+  "author": "Ozan Kanbertay",
+  "license": "ISC",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-dmg": "^7.4.0",
+    "@electron-forge/maker-pkg": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
+    "@electron-forge/plugin-fuses": "^7.4.0",
+    "@electron-forge/publisher-bitbucket": "^7.6.0",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^30.0.8",
+    "electron-builder": "^26.0.12",
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.2",
+    "electron-squirrel-startup": "^1.0.1",
+    "electron-updater": "^6.6.2",
+    "ffmpeg-static": "^5.3.0",
+    "mediainfo.js": "^0.3.6",
+    "update-electron-app": "^3.1.0"
+  }
+}
