@@ -1,27 +1,21 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog } = require('electron');
-const { updateElectronApp, UpdateSourceType } = require('update-electron-app');
 const { MediaInfo , mediaInfoFactory} = require('mediainfo.js');
-
 const ffmpegPath = require('ffmpeg-static');
+// const { updateElectronApp, UpdateSourceType } = require('update-electron-app');
+require('update-electron-app')();
 
-
-
-// FOR DEVELOPMENT/TESTING ONLY — NOT FOR PRODUCTION!
-// Object.defineProperty(app, 'isPackaged', {
-//   get() { return true; }
-// });
 
 // run this as early in the main process as possible 
 // https://www.electronforge.io/config/makers/squirrel.windows
 if (require('electron-squirrel-startup')) app.quit();
 
-updateElectronApp({
-  updateSource: {
-    type: UpdateSourceType.StaticStorage,
-    baseUrl: `https://bitbucket.org/kanbertay/ethowatch/downloads/`,
-  },
-});
+// updateElectronApp({
+//   updateSource: {
+//     type: UpdateSourceType.StaticStorage,
+//     baseUrl: `https://bitbucket.org/kanbertay/ethowatch/downloads/`,
+//   },
+// });
 
 
 const isMac = process.platform === 'darwin'
