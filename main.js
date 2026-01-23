@@ -2,20 +2,19 @@
 const { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog } = require('electron');
 const { MediaInfo , mediaInfoFactory} = require('mediainfo.js');
 const ffmpegPath = require('ffmpeg-static');
-// const { updateElectronApp, UpdateSourceType } = require('update-electron-app');
-require('update-electron-app')();
-
+const { updateElectronApp, UpdateSourceType } = require('update-electron-app');
 
 // run this as early in the main process as possible 
 // https://www.electronforge.io/config/makers/squirrel.windows
 if (require('electron-squirrel-startup')) app.quit();
 
-// updateElectronApp({
-//   updateSource: {
-//     type: UpdateSourceType.StaticStorage,
-//     baseUrl: `https://bitbucket.org/kanbertay/ethowatch/downloads/`,
-//   },
-// });
+updateElectronApp({
+  updateSource: {
+    type: UpdateSourceType.ElectronPublicUpdateService,
+    repo: 'ozan-kanbertay/silvi'
+  },
+  updateInterval: '1 hour',
+});
 
 
 const isMac = process.platform === 'darwin'
