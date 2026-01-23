@@ -4,9 +4,9 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
-    icon: 'images/icon',
+    icon: 'icons/icon',
     ignore: [
-      'examples', 
+      // 'examples', 
       'installers'
     ],
     osxSign: {},
@@ -22,7 +22,7 @@ module.exports = {
         // An URL to an ICO file to use as the application icon (displayed in Control Panel > Programs and Features).
         iconUrl: '',
         // The ICO file to use as the icon for the generated Setup.exe
-        setupIcon: 'images/icon.ico',
+        setupIcon: 'icons/icon.ico',
         // remoteReleases: `https://bitbucket.org/kanbertay/ethowatch/downloads`
       }),
     },
@@ -36,7 +36,7 @@ module.exports = {
       name: '@electron-forge/maker-dmg',
       config: {
         format: 'ULMO',
-        icon: 'images/icon.icns'
+        icon: 'icons/icon.icns'
       },
       platforms: ['darwin']
       
@@ -44,22 +44,30 @@ module.exports = {
     // {
     //   name: '@electron-forge/maker-pkg',
     //   config: {
-    //     icon: 'images/icon.icns'
+    //     icon: 'icons/icon.icns'
     //   },
     //   // platforms: ['darwin']
     // },
+    {
+      name: '@electron-forge/maker-flatpak',
+      config: {
+        options: {
+          categories: ['Science', 'Video'],
+        }
+      }
+    },
     {
       name: '@electron-forge/maker-deb',
       config: {
         options: {
           maintainer: 'Ozan Kanbertay',
           homepage: 'https://github.com/ozan-kanbertay/silvi',
-          icon: 'images/icon.png',
+          icon: 'icons/icon.png',
           name: 'SILVI',
           title: 'SILVI',
           summary: 'Simple Interface for Labeling Video Interactions',
           description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data, generating structured outputs suitable for training and validating computer vision models.',
-          categories: [ "Science", "Video" ]
+          categories: [ 'Science', 'Video' ]
         }
       },
     },
@@ -67,6 +75,20 @@ module.exports = {
     //   name: '@electron-forge/maker-rpm',
     //   config: {},
     // },
+  ],
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'ozan-kanbertay',
+          name: 'silvi',
+          authToken: process.env.GITHUB_TOKEN,
+        },
+        prerelease: false,
+        draft: true
+      }
+    }
   ],
   // publishers: [
   //   {

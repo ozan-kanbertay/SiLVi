@@ -374,15 +374,15 @@ if (showHelpBtn) {
   showHelpBtn.addEventListener('click', showHelpModal);
   
   // Only play videos in the help modal when user is hovering over them
-  const helpModalEl = document.getElementById('help-modal');
-  if (helpModalEl) {
-    const helpVideoEls = helpModalEl.querySelectorAll('.help-video');
-    helpVideoEls.forEach(video => {
-      video.addEventListener('mouseenter', () => video.play());
-      video.addEventListener('mouseleave', () => video.pause());
-    })
+  // const helpModalEl = document.getElementById('help-modal');
+  // if (helpModalEl) {
+  //   const helpVideoEls = helpModalEl.querySelectorAll('.help-video');
+  //   helpVideoEls.forEach(video => {
+  //     video.addEventListener('mouseenter', () => video.play());
+  //     video.addEventListener('mouseleave', () => video.pause());
+  //   })
 
-  }
+  // }
 
 }
 

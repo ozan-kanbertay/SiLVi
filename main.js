@@ -1,7 +1,6 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog } = require('electron');
 const { updateElectronApp, UpdateSourceType } = require('update-electron-app');
-// const { autoUpdater } = require('electron-updater');
 const { MediaInfo , mediaInfoFactory} = require('mediainfo.js');
 
 const ffmpegPath = require('ffmpeg-static');
@@ -170,68 +169,11 @@ if (!fs.existsSync(appDataDir)) {
 
 }
 
-// Automatic updates
-// autoUpdater.autoDownload = isAutoUpdateEnabled();
-
-// autoUpdater.on('error', (error) => {
-//   dialog.showErrorBox('Error: ', error == null ? "unknown" : (error.stack || error).toString())
-// })
-
-// autoUpdater.on('update-available', () => {
-//   dialog.showMessageBox({
-//     type: 'info',
-//     title: 'Updates available',
-//     message: 'Found updates, do you want to update now?',
-//     buttons: ['Sure', 'No']
-//   })
-//   .then((buttonIndex) => {
-//     if (buttonIndex.response === 0) {
-//       autoUpdater.downloadUpdate()
-//     }
-//   })
-// })
-
-// autoUpdater.on('update-not-available', () => {
-//   dialog.showMessageBox({
-//     title: 'No Updates',
-//     message: 'Current version is up-to-date.'
-//   })
-// })
-
-// autoUpdater.on('update-downloaded', () => {
-//   dialog.showMessageBox({
-//     title: 'Install Updates',
-//     message: 'Updates downloaded, application will be quit for update...'
-//   }).then(() => {
-//     setImmediate(() => autoUpdater.quitAndInstall())
-//   })
-// })
-
-// autoUpdater.on('checking-for-updates', () => {
-//   dialog.showMessageBox({
-//     title: 'Install Updates',
-//     message: 'Updates downloaded, application will be quit for update...'
-//   }).then(() => {
-//     setImmediate(() => autoUpdater.quitAndInstall())
-//   })
-// })
 
 
 
-// Manual updates
-// async function checkForUpdatesManually() {
-//   // const response = await autoUpdater.checkForUpdates();
-//   setTimeout(() => {
-//     autoUpdater.emit('update-available', { version: '9.9.9', files: [] });
-//   }, 1000);
-//   return 'Update available';
 
-// }
 
-// function isAutoUpdateEnabled() {
-//   const configData = handleGetFromConfig();
-//   return configData && configData.autoUpdateEnabled;
-// }
 
 
 /**
@@ -2822,36 +2764,6 @@ app.whenReady().then(() => {
     return response;
   })
   
-  // ipcMain.handle('check-updates', (e) => {
-  //   autoUpdater.setFeedURL({
-  //     provider: 'bitbucket',
-  //     owner: 'kanbertay',
-  //     slug: 'ethowatch-updates',
-  //     username: process.env.BITBUCKET_USERNAME,
-  //     token: process.env.BITBUCKET_APP_PASSWORD,
-  //     // provider: 'generic',
-  //     // url: 'http://localhost:8080/'
-  //   })
-  //   autoUpdater.checkForUpdates()
-  //   .then(response => {
-  //     console.log(response)
-  //     // const preText = app.getVersion() ? `Current version is  ${app.getVersion()}.` : '';
-  //     dialog.showMessageBoxSync(mainWindow, {
-  //       type: 'info',
-  //       // buttons: ['Cancel', 'Quit'],
-  //       // defaultId: 1,
-  //       // cancelId: 0,
-  //       // title: 'Confirm',
-  //       message: response
-  //     });
-
-  //     return response;
-
-  //   })
-
-  // })
-
-  
   createWindow();
 
   app.on('activate', function() {
@@ -2877,9 +2789,3 @@ app.whenReady().then(() => {
 // app.on('window-all-closed', function() {
 //   if (process.platform !== 'darwin') app.quit()
 // })
-
-
-
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
