@@ -25,12 +25,12 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          sudo apt update \
+          sudo apt update
           sudo apt install -y \
             flatpak \
             flatpak-builder \
-            elfutils \
-          flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo
+            elfutils
+          flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo 
           flatpak install --user -y flathub \
             org.freedesktop.Platform//25.08 \
             org.freedesktop.Sdk//25.08 \
