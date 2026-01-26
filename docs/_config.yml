@@ -6,9 +6,9 @@ theme: just-the-docs
 
 color_scheme: light_blue
 
-logo: "assets/images/silvi.png"
+logo: assets/images/silvi.png
 
-favicon_ico: "assets/images/silvi.ico"
+favicon_ico: assets/images/silvi.ico
 
 url: https:/ozan-kanbertay.github.io/silvi
 
