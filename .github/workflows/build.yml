@@ -27,6 +27,7 @@ jobs:
             flatpak \
             flatpak-builder \
             snapd
+          snap install snapcraft --classic
 
       - name: Install dependencies
         run: npm ci
