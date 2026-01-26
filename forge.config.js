@@ -20,7 +20,7 @@ module.exports = {
       name: '@electron-forge/maker-squirrel',
       config: (arch) => ({
         // An URL to an ICO file to use as the application icon (displayed in Control Panel > Programs and Features).
-        iconUrl: '',
+        iconUrl: 'https://github.com/ozan-kanbertay/silvi/blob/8ed93440afd5bee3e7e3e75ecfaed5b394bb4015/icons/icon.ico',
         // The ICO file to use as the icon for the generated Setup.exe
         setupIcon: 'icons/icon.ico',
         // remoteReleases: `https://bitbucket.org/kanbertay/ethowatch/downloads`
