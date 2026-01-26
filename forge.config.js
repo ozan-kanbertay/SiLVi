@@ -7,7 +7,9 @@ module.exports = {
     icon: 'icons/icon',
     ignore: [
       // 'examples', 
-      'installers'
+      'installers',
+      'docs',
+      '.github'
     ],
     osxSign: {},
     osxNotarize: {
