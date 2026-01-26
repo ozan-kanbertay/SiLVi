@@ -53,35 +53,40 @@ module.exports = {
       config: {
         options: {
           categories: ['Science', 'Video'],
-        }
-      }
-    },
-    {
-      name: '@electron-forge/maker-snap',
-      config: {
-        features: {
-          audio: true,
-          video: true,
-          webgl: true
-        },
-        summary: 'Pretty Awesome'
-      }
-    },
-    {
-      name: '@electron-forge/maker-deb',
-      config: {
-        options: {
-          maintainer: 'Ozan Kanbertay',
-          homepage: 'https://github.com/ozan-kanbertay/silvi',
           icon: 'icons/icon.png',
           name: 'SILVI',
-          title: 'SILVI',
-          summary: 'Simple Interface for Labeling Video Interactions',
+          id: 'org.flatpak.silvi',
           description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data, generating structured outputs suitable for training and validating computer vision models.',
-          categories: [ 'Science', 'Video' ]
+          base: 'org.flatpak.silvi.BaseApp'
         }
-      },
+      }
     },
+    // {
+    //   name: '@electron-forge/maker-snap',
+    //   config: {
+    //     features: {
+    //       audio: true,
+    //       video: true,
+    //       webgl: true
+    //     },
+    //     summary: 'Pretty Awesome'
+    //   }
+    // },
+    // {
+    //   name: '@electron-forge/maker-deb',
+    //   config: {
+    //     options: {
+    //       maintainer: 'Ozan Kanbertay',
+    //       homepage: 'https://github.com/ozan-kanbertay/silvi',
+    //       icon: 'icons/icon.png',
+    //       name: 'SILVI',
+    //       title: 'SILVI',
+    //       summary: 'Simple Interface for Labeling Video Interactions',
+    //       description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data, generating structured outputs suitable for training and validating computer vision models.',
+    //       categories: [ 'Science', 'Video' ]
+    //     }
+    //   },
+    // },
     // {
     //   name: '@electron-forge/maker-rpm',
     //   config: {},
