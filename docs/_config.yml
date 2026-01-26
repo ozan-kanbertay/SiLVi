@@ -1,0 +1,24 @@
+title: SILVI
+
+description: A Simple Interface for Labeling Video Interactions
+
+theme: just-the-docs
+
+color_scheme: light_blue
+
+logo: "assets/images/silvi.png"
+
+favicon_ico: "assets/images/silvi.ico"
+
+url: https:/ozan-kanbertay.github.io/silvi
+
+defaults:
+  -
+    scope:
+      path: "" # an empty string here means all files in the project
+    values:
+      layout: "default"
+
+
+aux_links:
+  GitHub Repository: https://github.com/ozan-kanbertay/silvi

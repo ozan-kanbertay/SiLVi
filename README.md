@@ -8,8 +8,8 @@ If you use SILVI in your research, please cite it: https://doi.org/10.48550/arXi
 ## Installation
 Download the relevant installer for your operation system [here](./installers/).
 
-### MacOS
-MacOS [installers](./installers/macOS/) are code signed. The installation and automatic updates should work without an issue. If you own a MacBook based on ARM architecture (M1 or later), download the installer ending with "arm64" in its names. For older Macs using Intel processor, choose the installer with "x64" in its name.
+### macOS
+macOS [installers](./installers/macOS/) are code signed. The installation and automatic updates should work without an issue. If you own a MacBook based on ARM architecture (M1 or later), download the installer ending with "arm64" in its names. For older Macs using Intel processor, choose the installer with "x64" in its name.
 
 ### Windows
 There are two ways to use the app on Windows, either via the Microsoft Store or by downloading the executable [directly](./installers/Windows/). Both versions are functionally identical.

@@ -57,6 +57,17 @@ module.exports = {
       }
     },
     {
+      name: '@electron-forge/maker-snap',
+      config: {
+        features: {
+          audio: true,
+          video: true,
+          webgl: true
+        },
+        summary: 'Pretty Awesome'
+      }
+    },
+    {
       name: '@electron-forge/maker-deb',
       config: {
         options: {

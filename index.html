@@ -8,7 +8,7 @@
     <!-- <meta http-equiv="Content-Security-Policy" content="img-src 'self' data:; default-src 'self'"> -->
     <!-- <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
 
-    <title>Interaction labeling App</title>
+    <title>SILVI: Simple Interface for Labeling Video Interactions</title>
     <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css">
     <!-- <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css"> -->
     <!-- <link rel="stylesheet" type="text/css" href="./node_modules/material-icons/iconfont/material-icons.css"> -->
@@ -1084,11 +1084,38 @@
                   <h5>Draw Bounding Boxes</h5>
                   <p>
                     First enable the drawing mode.
-                  <video src="./videos/drawing_mode_toggle.mp4" class="border rounded shadow help-video" muted loop autoplay></video>
-
                   </p>
+                  <video src="./videos/drawing_mode_toggle.mp4" class="border rounded shadow help-video" muted loop autoplay></video>
+                  <p>
+                    Draw a rectangle around the subject of interest. A menu with input option will appear next to the rectangle you just draw.
+                  </p>
+                  <p>
+                    Assign a class to the bounding box by either selecting an existing one or creating a new one. Optionally, change the pre-assigned color for the newly created class. 
+                  </p>
+                  <video src="./videos/drawing_single_box.mp4" class="border rounded shadow help-video" muted loop autoplay></video>
+                  <p>
+                    You can opt to a create single bounding box for the current video frame or interpolate multiple boxes between two video frames.
+                  </p>
+                  <p>
+                    If you wish to create a single bounding box, first make sure the <span class="badge rounded-pill text-bg-light">Interpolate</span> option is deselected. Then, click <span class="badge text-bg-primary">Save</span> to confirm your choice. 
+                  </p>
+                  <div id="help-interpolate" class="fw-bold help-subitem">Interpolation</div>
+                  <p>
+                    To interpolate multiple bounding boxes, make sure the <span class="badge rounded-pill text-bg-light">Interpolate</span> option is selected and click <span class="badge text-bg-primary">Save</span> to proceed.
+                  </p>
+                  <video src="./videos/interpolation.mp4" class="border rounded shadow help-video" muted loop autoplay></video>
+                  <p>
+                    Skip backward or forward to the frame where you wish the interpolation to continue. If you wish to end the interpolation here, click <span class="badge text-bg-danger">End</span>.
+                  </p>
+                  <p>
+                    If you wish to continue the interpolation with the same class and track ID, click <span class="badge text-bg-primary">Continue</span>. Then, repeat the previous step until you reach to the frame where the interpolation should end. Finally, click <span class="badge text-bg-danger">End</span> to complete the interpolation.
+                  </p>
+                  <p>
+                    You can review the interpolated bounding boxes and correct any of them later by resizing if necessary.
+                  </p>
+                  <video src="./videos/review_interpolation.mp4" class="border rounded shadow help-video" muted loop autoplay></video>
                 </div>
-                <div id="help-save-work" class="help-item">
+                <div id="help-save-work" class="help-item mt-2">
                   <h5>Save Your Work</h5>
                   <p>
                     Your observations, tracking edits and notes linked to the main view are always saved automatically.

@@ -137,7 +137,7 @@ dist
 !/videos/*.mp4
 
 
-# MacOS files
+# macOS files
 *.DS_Store
 
 # Data folders
