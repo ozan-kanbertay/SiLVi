@@ -55,9 +55,9 @@ module.exports = {
           categories: ['Science', 'Video'],
           icon: 'icons/icon.png',
           name: 'SILVI',
-          id: 'org.flatpak.silvi',
+          // id: 'org.flatpak.silvi',
           description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data, generating structured outputs suitable for training and validating computer vision models.',
-          base: 'org.flatpak.silvi.BaseApp'
+          // base: 'org.flatpak.silvi.BaseApp'
         }
       }
     },
