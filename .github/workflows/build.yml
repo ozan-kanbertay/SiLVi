@@ -76,3 +76,6 @@ jobs:
         with:
           name: windows-artifacts
           path: out/make/**
+      
+      - name: Publish as draft
+        run: npm run publish
