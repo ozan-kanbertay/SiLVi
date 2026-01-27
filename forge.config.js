@@ -43,41 +43,23 @@ module.exports = {
       platforms: ['darwin']
       
     },
-    // {
-    //   name: '@electron-forge/maker-pkg',
-    //   config: {
-    //     icon: 'icons/icon.icns'
-    //   },
-    //   // platforms: ['darwin']
-    // },
     {
       name: '@electron-forge/maker-flatpak',
       config: {
         options: {
-          categories: ['Science', 'Video'],
-          icon: 'icons/icon@2x.png',
+          id: 'org.silvi.SILVI',
           productName: 'SILVI',
           genericName: 'Video Annotation Tool',
-          id: 'org.flatpak.silvi',
-          description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data, generating structured outputs suitable for training and validating computer vision models.',
+          description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data.',
+          categories: ['Science', 'Video'],
+          icon: 'icons/icon@2x.png',
           runtime: 'org.freedesktop.Platform',
-          runtimeVersion: '25.08',
-          base: 'io.atom.electron.BaseApp',
-          baseVersion: 'stable'
+          runtimeVersion: '23.08',
+          base: 'org.electronjs.Electron2.BaseApp',
+          baseVersion: '23.08'
         }
       }
-    },
-    // {
-    //   name: '@electron-forge/maker-snap',
-    //   config: {
-    //     features: {
-    //       audio: true,
-    //       video: true,
-    //       webgl: true
-    //     },
-    //     summary: 'Pretty Awesome'
-    //   }
-    // },
+    }
     // {
     //   name: '@electron-forge/maker-deb',
     //   config: {
