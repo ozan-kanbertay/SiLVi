@@ -7,11 +7,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-linux:
+  build:
     strategy: 
       matrix:
-       os: [ ubuntu-latest ]
+       os: [ ubuntu-latest, windows-latest ]
     runs-on: ${{ matrix.os }}
+    environment: build
 
     steps:
       - name: Checkout
@@ -45,37 +46,44 @@ jobs:
       - name: Upload Linux artifacts
         uses: actions/upload-artifact@v6
         with:
-          name: linux-artifacts
+          name: ${{ matrix.os}}-artifacts
           path: out/make/**
 
-  build-windows:
-    strategy: 
-      matrix:
-        # os: [ windows-latest, windows-11-arm ]
-        os: [ windows-latest ]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Make Windows distributables
-        run: npm run make
-
-      - name: Upload Windows artifacts
-        uses: actions/upload-artifact@v6
-        with:
-          name: windows-artifacts
-          path: out/make/**
-      
       - name: Publish as draft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run publish
+
+  # build-windows:
+  #   strategy: 
+  #     matrix:
+  #       # os: [ windows-latest, windows-11-arm ]
+  #       os: [ windows-latest ]
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v6
+
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v6
+  #       with:
+  #         node-version: 24
+  #         cache: 'npm'
+
+  #     - name: Install dependencies
+  #       run: npm ci
+
+  #     - name: Make Windows distributables
+  #       run: npm run make
+
+  #     - name: Upload Windows artifacts
+  #       uses: actions/upload-artifact@v6
+  #       with:
+  #         name: windows-artifacts
+  #         path: out/make/**
+      
+  #     - name: Publish as draft
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: npm run publish
