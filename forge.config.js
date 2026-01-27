@@ -93,20 +93,20 @@ module.exports = {
     //   config: {},
     // },
   ],
-  publishers: [
-    {
-      name: '@electron-forge/publisher-github',
-      config: {
-        repository: {
-          owner: 'ozan-kanbertay',
-          name: 'silvi',
-          authToken: process.env.GITHUB_TOKEN,
-        },
-        prerelease: false,
-        draft: true
-      }
-    }
-  ],
+  // publishers: [
+  //   {
+  //     name: '@electron-forge/publisher-github',
+  //     config: {
+  //       repository: {
+  //         owner: 'ozan-kanbertay',
+  //         name: 'silvi',
+  //         authToken: process.env.GITHUB_TOKEN,
+  //       },
+  //       prerelease: false,
+  //       draft: true
+  //     }
+  //   }
+  // ],
   // publishers: [
   //   {
   //     name: '@electron-forge/publisher-bitbucket',

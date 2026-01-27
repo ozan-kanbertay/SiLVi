@@ -38,17 +38,13 @@ jobs:
             org.electronjs.Electron2.BaseApp//25.08
       - name: Install dependencies
         run: npm ci --save-dev
-      # - name: Make Linux distributables
-      #   run: npm run make
-      # - name: Upload Linux artifacts
-      #   uses: actions/upload-artifact@v6
-      #   with:
-      #     name: linux-artifacts
-      #     path: out/make/**
-      - name: Publish as draft
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run publish
+      - name: Make Linux distributables
+        run: npm run make
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: linux-artifacts
+          path: out/make/**
   build-windows:
     strategy: 
       matrix:
@@ -66,14 +62,27 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci --save-dev
-      # - name: Make Windows distributables
-      #   run: npm run make
-      # - name: Upload Windows artifacts
-      #   uses: actions/upload-artifact@v6
-      #   with:
-      #     name: windows-artifacts
-      #     path: out/make/**
-      - name: Publish as draft
+      - name: Make Windows distributables
+        run: npm run make
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: windows-artifacts
+          path: out/make/**
+  release:
+    name: Release as draft
+    needs: [ build-linux, build-windows ]
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Download all artifacts
+        uses: actions/download-artifact@v7
+        with:
+          path: dist
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2.5
+        with:
+          files: |
+            dist/**/**
+          draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run publish
