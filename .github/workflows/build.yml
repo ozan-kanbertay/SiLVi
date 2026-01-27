@@ -71,6 +71,8 @@ jobs:
           path: out/make/**
   release:
     name: Release as draft
+    permissions:
+      contents: write
     needs: [ build-linux, build-windows ]
     runs-on: ubuntu-latest
     steps: 
