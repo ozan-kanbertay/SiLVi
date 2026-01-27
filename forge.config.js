@@ -49,10 +49,10 @@ module.exports = {
         options: {
           categories: ['Science', 'Video'],
           id: 'org.silvi.SILVI',
-          productName: 'SILVI',
-          genericName: 'Video Annotation Tool',
+          // productName: 'SILVI',
+          // genericName: 'Video Annotation Tool',
           description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data.',
-          icon: 'icons/icon.png',
+          icon: 'icons/icon@2x.png',
           runtime: 'org.freedesktop.Platform',
           runtimeVersion: '24.08',
           sdk: 'org.freedesktop.Sdk',
