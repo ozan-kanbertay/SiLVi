@@ -33,13 +33,13 @@ jobs:
             elfutils
           flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo 
           flatpak install --user -y flathub \
-            org.freedesktop.Platform//25.08 \
-            org.freedesktop.Sdk//25.08 \
-            org.electronjs.Electron2.BaseApp//25.08
+            org.freedesktop.Platform//24.08 \
+            org.freedesktop.Sdk//24.08 \
+            org.electronjs.Electron2.BaseApp//24.08
       - name: Install dependencies
         run: npm ci --save-dev
       - name: Make Linux distributables
-        run: npm run make
+        run: npm run make --verbose
       - name: Upload Linux artifacts
         uses: actions/upload-artifact@v6
         with:
@@ -63,7 +63,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --save-dev
       - name: Make Windows distributables
-        run: npm run make
+        run: npm run make --verbose
       - name: Upload Windows artifacts
         uses: actions/upload-artifact@v6
         with:

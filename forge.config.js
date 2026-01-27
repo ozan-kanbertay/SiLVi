@@ -54,10 +54,10 @@ module.exports = {
           categories: ['Science', 'Video'],
           icon: 'icons/icon.png',
           runtime: 'org.freedesktop.Platform',
-          runtimeVersion: '25.08',
+          runtimeVersion: '24.08',
           sdk: 'org.freedesktop.Sdk',
           base: 'org.electronjs.Electron2.BaseApp',
-          baseVersion: '25.08'
+          baseVersion: '24.08'
         }
       }
     }
