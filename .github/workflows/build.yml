@@ -79,7 +79,7 @@ jobs:
         with:
           path: dist
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v2.5
+        uses: softprops/action-gh-release@v2.5.0
         with:
           files: |
             dist/**/**
