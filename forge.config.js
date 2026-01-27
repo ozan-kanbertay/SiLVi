@@ -47,17 +47,17 @@ module.exports = {
       name: '@electron-forge/maker-flatpak',
       config: {
         options: {
+          categories: ['Science', 'Video'],
           id: 'org.silvi.SILVI',
           productName: 'SILVI',
           genericName: 'Video Annotation Tool',
           description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data.',
-          categories: ['Science', 'Video'],
           icon: 'icons/icon.png',
           runtime: 'org.freedesktop.Platform',
-          runtimeVersion: '25.08',
+          runtimeVersion: '24.08',
           sdk: 'org.freedesktop.Sdk',
           base: 'org.electronjs.Electron2.BaseApp',
-          baseVersion: '25.08'
+          baseVersion: '24.08'
         }
       }
     },
