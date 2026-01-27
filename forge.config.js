@@ -59,6 +59,10 @@ module.exports = {
           name: 'SILVI',
           id: 'org.flatpak.silvi',
           description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data, generating structured outputs suitable for training and validating computer vision models.',
+          runtimeVersion: '25.08',
+          sdk: 'org.freedesktop.Sdk',
+          base: 'org.electronjs.Electron2.BaseApp',
+          baseVersion: '25.08'
         }
       }
     },
