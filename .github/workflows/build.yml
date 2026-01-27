@@ -35,7 +35,7 @@ jobs:
           flatpak install --user -y flathub \
             org.freedesktop.Platform//25.08 \
             org.freedesktop.Sdk//25.08 \
-            org.electronjs.Electron2.BaseApp//25.08
+            io.atom.electron.BaseApp//stable
       - name: Install dependencies
         run: npm ci --save-dev
       - name: Make Linux distributables

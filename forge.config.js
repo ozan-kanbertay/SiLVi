@@ -55,14 +55,15 @@ module.exports = {
       config: {
         options: {
           categories: ['Science', 'Video'],
-          icon: 'icons/icon.png',
-          name: 'SILVI',
+          icon: 'icons/icon@2x.png',
+          productName: 'SILVI',
+          genericName: 'Video Annotation Tool',
           id: 'org.flatpak.silvi',
           description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data, generating structured outputs suitable for training and validating computer vision models.',
+          runtime: 'org.freedesktop.Platform',
           runtimeVersion: '25.08',
-          sdk: 'org.freedesktop.Sdk',
-          base: 'org.electronjs.Electron2.BaseApp',
-          baseVersion: '25.08'
+          base: 'io.atom.electron.BaseApp',
+          baseVersion: 'stable'
         }
       }
     },
