@@ -52,9 +52,10 @@ module.exports = {
           genericName: 'Video Annotation Tool',
           description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data.',
           categories: ['Science', 'Video'],
-          icon: 'icons/icon@2x.png',
+          icon: 'icons/icon.png',
           runtime: 'org.freedesktop.Platform',
           runtimeVersion: '23.08',
+          sdk: 'org.freedesktop.Sdk',
           base: 'org.electronjs.Electron2.BaseApp',
           baseVersion: '23.08'
         }
