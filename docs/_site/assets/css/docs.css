@@ -1,0 +1,22 @@
+.windows-screenshot {
+  width: 300px;
+  height: auto;
+
+}
+
+.app-screenshot {
+  max-width: 1080px;
+  min-width: 300px;
+  width: 100%;
+  height: auto;
+  display: block;
+
+}
+
+.help-video {
+  min-width: 240px;
+  width: 100%;
+  height: auto;
+  max-width: 720px;
+  display: block;
+}

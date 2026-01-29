@@ -1,25 +1,59 @@
-<flatpak/com.silvi.SiLVi.metainfo.xml>
-<metainfo>
-    <id>com.silvi.SiLVi</id>
-    <name>SiLVi</name>
-    <summary>Simple Interface for Labeling Video Interactions</summary>
-    <description>
-        SILVI enables researchers to annotate individualized and localized behaviors and interactions directly within video data, generating structured outputs suitable for training and validating computer vision models.
-    </description>
-    <developer>Ozan Kanbertay</developer>
-    <homepage>https://ozan-kanbertay.github.io/SiLVi</homepage>
-    <license>MIT</license>
-    <keywords>
-        <keyword>flatpak</keyword>
-        <keyword>application</keyword>
-        <keyword>video</keyword>
-        <keyword>science</keyword>
-        <keyword>research</keyword>
-        <keyword>computer-vision</keyword>
-    </keywords>
-    <screenshots>
-        <screen>https://github.com/ozan-kanbertay/SiLVi/blob/681426405f788a3c1e9b226fc78b7a6cb2eab5f3/docs/assets/screenshots/silvi_screenshot_label_with_bounding_box_1080p.jpg</screen>
-        <screen>https://github.com/ozan-kanbertay/SiLVi/blob/681426405f788a3c1e9b226fc78b7a6cb2eab5f3/docs/assets/screenshots/silvi_screenshot_change_name_1080p.jpg</screen>
-        <screen>https://github.com/ozan-kanbertay/SiLVi/blob/681426405f788a3c1e9b226fc78b7a6cb2eab5f3/docs/assets/screenshots/silvi_screenshot_edit_track_1080p.jpg</screen>
-    </screenshots>
-</metainfo>
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.silvi.SiLVi</id>
+  <name>SiLVi</name>
+  <summary>Simple Interface for Labeling Video Interactions</summary>
+  <description>
+      <p>SILVI enables researchers to annotate individualized and localized behaviors and interactions directly within video data, generating structured outputs suitable for training and validating computer vision models.</p>
+  </description>
+  <developer id="kanbertay.ozan">
+    <name>Ozan Kanbertay</name>
+  </developer>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <launchable type="desktop-id">com.silvi.SiLVi.desktop</launchable>
+  <keywords>
+      <keyword>video</keyword>
+      <keyword>science</keyword>
+      <keyword>research</keyword>
+      <keyword>computer-vision</keyword>
+  </keywords>
+  <categories>
+      <category>Science</category>
+      <category>Education</category>
+  </categories>
+  <branding>
+    <color type="primary" scheme_preference="light">#ff00ff</color>
+    <color type="primary" scheme_preference="dark">#993d3d</color>
+  </branding>
+  <content_rating type="oars-1.0" />
+  <url type="homepage">https://ozan-kanbertay.github.io/SiLVi</url>
+  <url type="bugtracker">https://github.com/ozan-kanbertay/SiLVi/issues</url>
+  <url type="contribute">https://github.com/ozan-kanbertay/SiLVi</url>
+  <url type="contact">https://ozan-kanbertay.github.io/SiLVi/contact.html</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://github.com/ozan-kanbertay/SiLVi/blob/681426405f788a3c1e9b226fc78b7a6cb2eab5f3/docs/assets/screenshots/silvi_screenshot_label_with_bounding_box.jpg</image>
+      <caption>Recording observations by interacting with bounding boxes</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/ozan-kanbertay/SiLVi/blob/681426405f788a3c1e9b226fc78b7a6cb2eab5f3/docs/assets/screenshots/silvi_screenshot_change_name.jpg</image>
+      <caption>Correcting names of individuals</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/ozan-kanbertay/SiLVi/blob/681426405f788a3c1e9b226fc78b7a6cb2eab5f3/docs/assets/screenshots/silvi_screenshot_edit_track.jpg</image>
+      <caption>Editing track features</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.5.1" date="2026-01-29">
+      <description>
+        <p>Version 0.5.1</p>
+        <ul>
+          <li>Bounding boxes can now be created from scratch.</li>
+          <li>Existing bounding boxes can be resized.</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+</component>
