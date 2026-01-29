@@ -3,12 +3,12 @@
 
 SiLVi (**S**imple **I**nterface for **L**abelling **V**ideo **I**nteractions) is a lightweight, open-source tool designed specifically to facilitate the annotation of interactions in a way that is both spatially and temporally localized, enabling the generation of training data for computer vision models. 
 
-![image](./docs/assets/screenshots/silvi_screenshot_change_name.jpg)
+![image](docs/assets/screenshots/silvi_screenshot_change_name.jpg)
 
 By supporting precise annotations of both actions and interactions across individuals, SILVI empowers researchers to move beyond individual-centric behavioral models toward richer representations of social behavior. Apart from this main contribution, SILVI also allows for labeling individual IDs and annotating or correcting tracks.
 
 
-![image](./docs/assets/screenshots/silvi_screenshot_edit_track.jpg)
+![image](docs/assets/screenshots/silvi_screenshot_edit_track.jpg)
 
 You can read the documentation [here](https://ozan-kanbertay.github.io/SiLVi/).
 
