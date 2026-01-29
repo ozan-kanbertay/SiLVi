@@ -33,15 +33,15 @@
   <url type="contact">https://github.com/ozan-kanbertay/SiLVi</url>
   <screenshots>
     <screenshot type="default">
-      <image>https://github.com/ozan-kanbertay/SiLVi/blob/681426405f788a3c1e9b226fc78b7a6cb2eab5f3/docs/assets/screenshots/silvi_screenshot_label_with_bounding_box.jpg</image>
+      <image>https://raw.githubusercontent.com/ozan-kanbertay/SiLVi/main/docs/assets/screenshots/silvi_screenshot_label_with_bounding_box.jpg</image>
       <caption>Recording observations by interacting with bounding boxes</caption>
     </screenshot>
     <screenshot>
-      <image>https://github.com/ozan-kanbertay/SiLVi/blob/681426405f788a3c1e9b226fc78b7a6cb2eab5f3/docs/assets/screenshots/silvi_screenshot_change_name.jpg</image>
+      <image>https://raw.githubusercontent.com/ozan-kanbertay/SiLVi/main/docs/assets/screenshots/silvi_screenshot_change_name.jpg</image>
       <caption>Correcting names of individuals</caption>
     </screenshot>
     <screenshot>
-      <image>https://github.com/ozan-kanbertay/SiLVi/blob/681426405f788a3c1e9b226fc78b7a6cb2eab5f3/docs/assets/screenshots/silvi_screenshot_edit_track.jpg</image>
+      <image>https://raw.githubusercontent.com/ozan-kanbertay/SiLVi/main/docs/assets/screenshots/silvi_screenshot_edit_track.jpg</image>
       <caption>Editing track features</caption>
     </screenshot>
   </screenshots>
