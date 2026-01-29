@@ -4,7 +4,7 @@
     <name>SiLVi</name>
     <summary>Simple Interface for Labeling Video Interactions</summary>
     <description>
-        A detailed description of the SiLVi application, explaining its features and functionality.
+        SILVI enables researchers to annotate individualized and localized behaviors and interactions directly within video data, generating structured outputs suitable for training and validating computer vision models.
     </description>
     <developer>Ozan Kanbertay</developer>
     <homepage>https://ozan-kanbertay.github.io/SiLVi/</homepage>
