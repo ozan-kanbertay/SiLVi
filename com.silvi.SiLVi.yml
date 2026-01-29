@@ -1,0 +1,99 @@
+app-id: com.silvi.SiLVi  # CHANGE THIS: Your app's unique reverse-DNS ID
+runtime: org.freedesktop.Platform
+runtime-version: '25.08'
+sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp  # Provides Electron base
+base-version: '25.08'
+command: silvi  # CHANGE THIS: Your app's executable name
+separate-locales: false
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.node24  # CHANGE THIS: Use node18, node20, node22 depending on your needs
+build-options:
+  # Make Node.js available during build
+  append-path: /usr/lib/sdk/node24/bin  # CHANGE THIS: Must match sdk-extension version
+  env:
+    NPM_CONFIG_LOGLEVEL: info
+    # Electron cache directory
+    ELECTRON_CACHE: /run/build/silvi/.electron-cache
+    # Use system Electron from BaseApp
+    ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+finish-args:
+  - --device=dri # GPU acceleration
+  - --socket=pulseaudio
+  - --socket=x11
+  - --share=ipc
+  - --share=network 
+  # File system access - adjust based on your needs
+  # - --filesystem=xdg-documents  # CHANGE THIS: Use more restrictive permissions like --filesystem=xdg-documents
+  - --talk-name=org.freedesktop.Notifications
+modules:
+  # Module 1: Your Electron application
+  - name: SiLVi  # CHANGE THIS: Your app name
+    buildsystem: simple
+    build-options:
+      env:
+        # Use system Electron
+        ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        # Disable Electron rebuild (using system Electron)
+        ELECTRON_DONT_REBUILD: '1'
+        # Prevent Electron downloads
+        ELECTRON_OVERRIDE_DIST_PATH: /app/lib/electron25
+        # Prevent other downloads
+        ELECTRON_GET_USE_PROXY: '1'
+        GLOBAL_AGENT_HTTPS_PROXY: 'http://127.0.0.1:9'
+        # Forge offline mode
+        npm_config_offline: 'true'
+    build-commands:
+      # Install npm dependencies
+      # # - npm ci --offline --prefix=/run/build/silvi
+      # - npm install --offline
+      # - npm run package  
+      # - cp -r out/*-linux-*/resources/app /app/main/
+      - npm install --offline --ignore-scripts
+      - mkdir -p /app/main
+      # - cp -r !(node_modules|out|build-dir|.git) /app/main/
+      # - cp package.json /app/main/
+      - cp -r . /app/main/
+      - rm -rf /app/main/node_modules /app/main/out /app/main/build-dir /app/main/.git /app/main  /.github
+      - install -Dm755 silvi.sh /app/bin/silvi
+    sources:
+      # Your app source code
+      - type: dir
+        path: . # Path to your Electron app directory
+      - type: file
+        path: generated-sources.json  # This file must exist in your project root!
+      # Wrapper to launch the app
+      - type: script
+        dest-filename: silvi.sh
+        commands:
+          - zypak-wrapper.sh /app/main/SiLVi "$@"
+      # Generated sources for npm dependencies (offline build)
+      # Generate this with: flatpak-node-generator npm package-lock.json
+      # - generated-sources.json  # CHANGE THIS: Generate this file first (see below)
+
+  # Module 2: Desktop file
+  # - name: desktop-file
+  #   buildsystem: simple
+  #   build-commands:
+  #     - install -Dm644 com.silvi.SiLVi.desktop /app/share/applications/com.silvi.SiLVi.desktop
+  #   sources:
+  #     - type: file
+  #       path: com.silvi.SILVI.desktop  # CHANGE THIS: Create this file (see below)
+
+  # Module 3: App icon
+  - name: icon
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 icon@2x.png /app/share/icons/hicolor/512x512/apps/com.silvi.SiLVi.png
+    sources:
+      - type: file
+        path: icons/icon@2x.png  # CHANGE THIS: Path to your 512x512 icon
+
+  # Module 4: AppStream metadata
+  # - name: appdata
+  #   buildsystem: simple
+  #   build-commands:
+  #     - install -Dm644 com.silvi.SiLVi.metainfo.xml /app/share/metainfo/com.silvi.SiLVi.metainfo.xml
+  #   sources:
+  #     - type: file
+  #       path: com.silvi.SiLVi.metainfo.xml  # CHANGE THIS: Create this file (see below)

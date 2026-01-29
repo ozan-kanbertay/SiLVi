@@ -3,7 +3,9 @@ SILVI (**S**imple **I**nterface for **L**abelling **V**ideo **I**nteractions) is
 
 By supporting precise annotations of both actions and interactions across individuals, SILVI empowers researchers to move beyond individual-centric behavioral models toward richer representations of social behavior. Apart from this main contribution, SILVI also allows for labeling individual IDs and annotating or correcting tracks.
 
-If you use SILVI in your research, please cite it: https://doi.org/10.48550/arXiv.2511.03819
+If you use SILVI in your research, please cite it: https://doi.org/10.48550/arXiv.2511.03819.
+
+You can read the documentation [here](https://ozan-kanbertay.github.io/SiLVi/).
 
 ## Installation
 Download the relevant installer for your operation system [here](./installers/).
@@ -31,11 +33,11 @@ Please follow the instructions below for the installation of the app on Windows.
 
 On your browser, click the three dots next to the downloaded file and select *Keep*.
 
-<img src="./screenshots/win_install_2.png" alt="Windows Installation Step 2" width="200">
+<img src="docs/assets/screenshots/win_install_2.png" alt="Windows Installation Step 2" width="200">
 
 Click *Show more*.
 
-<img src="./screenshots/win_install_3.png" alt="Windows Installation Step 3" width="200">
+<img src="docs/assets/screenshots/win_install_3.png" alt="Windows Installation Step 3" width="200">
 
 Select *Keep anyway*.
 
@@ -43,7 +45,7 @@ Select *Keep anyway*.
 
 Click *More info* on the Microsoft Defender SmartScreen prompt.
 
-<img src="./screenshots/win_install_5.png" alt="Windows Installation Step 5" width="200">
+<img src="docs/assets//screenshots/win_install_5.png" alt="Windows Installation Step 5" width="200">
 
 Finally select *Run anyway*.
 
@@ -62,21 +64,21 @@ To uninstall the app, execute:
 
 The Linux version has been briefly tested only on Ubuntu 24.04 LTS thus far.
 
-## Usage
+<!-- ## Usage
 First, upload the files for actions and individuals [in the required format](#file-formats). You can download the example files [here](./examples/examples.zip).
 
-After you upload a file, a keyboard shortcut will be generated automatically for each item in the file. You can also change these shortcuts later.
+After you upload a file, a keyboard shortcut will be generated automatically for each item in the file. You can also change these shortcuts later. -->
 
-### Recording Behaviors/Observations
+<!-- ### Recording Behaviors/Observations
 To start recording behaviors with keyboard shortcuts, first activate the labeling mode. You can do this either by toggling the relevant button on the main view panel or by pressing the assigned shortcut. When you are typing, the labeling is disabled automatically to prevent any clashes with the shortcuts.
 
 Each observation of a behavior consists of a subject, an action and optionally a target. 
 
 The frame in which you press the shortcut for a subject will be recorded as the start frame. Similarly, the frame in which you press the shortcut assigned to a target or ending an observation without a target will be recorded as the end frame.
 
-There are three ways to record a behavior.
+There are three ways to record a behavior. -->
 
-#### 1. Behaviors with a target
+<!-- #### 1. Behaviors with a target
 - Go to the start frame of the behavior 
 - Press the shortcut assigned to the subject of the behavior 
 - Press the shortcut assigned to the action of the behavior
@@ -102,9 +104,9 @@ There are two ways to record a behavior without a target.
 
 The first behavior will be recorded without a target.
 
-The frame in which you pressed the shortcut for the second action will be recorded as the end frame of the first behavior. This frame will also be recorded as the start frame of the second behavior. Now, the app will wait for you to select a target for the second observation or ending the observation without a target. You should then go to the frame where the second behavior ends and press the shortcut assigned to your selection for the target.
+The frame in which you pressed the shortcut for the second action will be recorded as the end frame of the first behavior. This frame will also be recorded as the start frame of the second behavior. Now, the app will wait for you to select a target for the second observation or ending the observation without a target. You should then go to the frame where the second behavior ends and press the shortcut assigned to your selection for the target. -->
 
-### Identifying Subjects/Individuals
+<!-- ### Identifying Subjects/Individuals
 
 Right click on a bounding box over the main video, select an individual's name, and then click **Save**.
 
@@ -116,9 +118,9 @@ First, enable the zoom mode. Then, hold down your mouse over the main view and d
 Adjust the zoom scale on this window or use the settings menu. The window for zoomed area can be moved and hidden freely.
 
 ## File Formats
-To start labeling behaviors, text files for action types, modifiers and individual names must be uploaded first. Each item in these files must be separated with a comma. For consistency, please do not put a space within an item. For example, if an item in the action list describes a "successful push", write down either "successful_push" or "SuccessfulPush". Other than this, there is no restriction on the names.
+To start labeling behaviors, text files for action types, modifiers and individual names must be uploaded first. Each item in these files must be separated with a comma. For consistency, please do not put a space within an item. For example, if an item in the action list describes a "successful push", write down either "successful_push" or "SuccessfulPush". Other than this, there is no restriction on the names. -->
 
-## Saving Your Work
+<!-- ## Saving Your Work
 Last opened main view, secondary views and video timestamp are saved automatically. They will be reloaded when you relaunch the app. 
 
 Your observations, tracking edits and notes linked to the main view are always saved automatically. When you open a new video as the main view with any previous work linked to it, the app will import them. For example, you were working on Video A, then opened Video B before completing your work on the Video A. You worked a bit on Video B, then resumed your work on Video A. All your work linked to Video A (behaviors, tracking edits, notes, etc.) will be reimported. This is also true when you reopen the Video B.
@@ -128,7 +130,7 @@ When you relaunch the app, it will import all your previous work linked to the l
 You can export all files linked to the main view whenever you prefer. The files will be exported into a folder named after the main view. The app will keep your work even after you export these files. 
 
 ## Clearing App Data
-If necessary, you can clear the app data via the *Settings* button. This can be useful as a last resort solution if you encounter any issues that cannot be resolved by any other way. However, **clearing the app data will result in losing all unexported work**. Please export your work before using this option.
+If necessary, you can clear the app data via the *Settings* button. This can be useful as a last resort solution if you encounter any issues that cannot be resolved by any other way. However, **clearing the app data will result in losing all unexported work**. Please export your work before using this option. -->
 
 <!-- ## Usage
 First, upload files for action types, modifiers and individual names [in the required format](#file-formats). You can download the example files [here](./examples/examples.zip).

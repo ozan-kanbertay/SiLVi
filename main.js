@@ -1,7 +1,6 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, Menu, MenuItem, ipcMain, dialog } = require('electron');
 const { MediaInfo , mediaInfoFactory} = require('mediainfo.js');
-const ffmpegPath = require('ffmpeg-static');
 const { updateElectronApp, UpdateSourceType } = require('update-electron-app');
 
 // run this as early in the main process as possible 

@@ -4,9 +4,9 @@ description: A Simple Interface for Labeling Video Interactions
 
 theme: just-the-docs
 
-color_scheme: light_blue
+color_scheme: dark_orange
 
-logo: assets/images/silvi.png
+logo: assets/images/silvi_doc_logo_white.png
 
 favicon_ico: assets/images/silvi.ico
 

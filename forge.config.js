@@ -30,6 +30,7 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-zip',
+      platforms: ['darwin'],
       config: (arch) => ({
         // macUpdateManifestBaseUrl: `https://bitbucket.org/kanbertay/ethowatch/downloads`
       }),
@@ -48,38 +49,38 @@ module.exports = {
       config: {
         options: {
           categories: ['Science', 'Video'],
-          id: 'org.silvi.SILVI',
-          // productName: 'SILVI',
-          // genericName: 'Video Annotation Tool',
-          description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data.',
+          id: 'org.silvi.SiLVi',
+          productName: 'SiLVi',
+          genericName: 'Video Annotation Tool',
+          description: 'Simple Interface for Labeling Video Interactions',
           icon: 'icons/icon@2x.png',
-          runtime: 'org.freedesktop.Platform',
-          runtimeVersion: '24.08',
-          sdk: 'org.freedesktop.Sdk',
-          base: 'org.electronjs.Electron2.BaseApp',
-          baseVersion: '24.08'
+          // runtime: 'org.freedesktop.Platform',
+          // runtimeVersion: '24.08',
+          // sdk: 'org.freedesktop.Sdk',
+          // base: 'org.electronjs.Electron2.BaseApp',
+          // baseVersion: '24.08'
         }
       }
     },
-    // {
-    //   name: '@electron-forge/maker-deb',
-    //   config: {
-    //     options: {
-    //       maintainer: 'Ozan Kanbertay',
-    //       homepage: 'https://github.com/ozan-kanbertay/silvi',
-    //       icon: 'icons/icon.png',
-    //       name: 'SILVI',
-    //       title: 'SILVI',
-    //       summary: 'Simple Interface for Labeling Video Interactions',
-    //       description: 'SILVI enables researchers to annotate behaviors and interactions directly within video data, generating structured outputs suitable for training and validating computer vision models.',
-    //       categories: [ 'Science', 'Video' ]
-    //     }
-    //   },
-    // },
-    // {
-    //   name: '@electron-forge/maker-rpm',
-    //   config: {},
-    // },
+    {
+      name: '@electron-forge/maker-deb',
+      config: {
+        options: {
+          maintainer: 'Ozan Kanbertay',
+          homepage: 'https://github.com/ozan-kanbertay/silvi',
+          icon: 'icons/icon.png',
+          name: 'SiLVi',
+          title: 'SiLVi',
+          summary: 'Simple Interface for Labeling Video Interactions',
+          description: 'SiLVi enables researchers to annotate behaviors and interactions directly within video data, generating structured outputs suitable for training and validating computer vision models.',
+          categories: [ 'Science', 'Video' ]
+        }
+      },
+    },
+    {
+      name: '@electron-forge/maker-rpm',
+      config: {},
+    },
   ],
   // publishers: [
   //   {

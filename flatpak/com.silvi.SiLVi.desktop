@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=SiLVi
+Comment=Simple Interface for Video Interactions
+Exec=flatpak run com.silvi.SiLVi
+Icon=com.silvi.SiLVi
+Terminal=false
+Type=Application
+Categories=Video;Science;Application;

@@ -1,0 +1,24 @@
+<flatpak/com.silvi.SiLVi.metainfo.xml>
+<metainfo>
+    <id>com.silvi.SiLVi</id>
+    <name>SiLVi</name>
+    <summary>Simple Interface for Labeling Video Interactions</summary>
+    <description>
+        A detailed description of the SiLVi application, explaining its features and functionality.
+    </description>
+    <developer>Ozan Kanbertay</developer>
+    <homepage>https://ozan-kanbertay.github.io/SiLVi/</homepage>
+    <license>MIT</license>
+    <keywords>
+        <keyword>flatpak</keyword>
+        <keyword>application</keyword>
+        <keyword>video</keyword>
+        <keyword>science</keyword>
+        <keyword>research</keyword>
+        <keyword>computer-vision</keyword>
+    </keywords>
+    <screenshots>
+        <screen>https://example.com/screenshot1.png</screen>
+        <screen>https://example.com/screenshot2.png</screen>
+    </screenshots>
+</metainfo>
