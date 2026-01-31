@@ -48,13 +48,21 @@ modules:
       # - npm install --offline
       # - npm run package  
       # - cp -r out/*-linux-*/resources/app /app/main/
-      - npm install --offline --ignore-scripts
       - mkdir -p /app/main
+      - npm install --offline --ignore-scripts
       # - cp -r !(node_modules|out|build-dir|.git) /app/main/
       # - cp package.json /app/main/
       - cp -r .. /app/main/
       - rm -rf /app/main/node_modules /app/main/out /app/main/build-dir /app/main/.git /app/main  /.github
-      - install -Dm755 silvi.sh /app/bin/silvi
+      # - install -Dm755 silvi.sh /app/bin/silvi
+      # Create wrapper script
+      - |
+        cat > /app/bin/silvi << 'EOF'
+        #!/bin/bash
+        export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
+        exec zypak-wrapper /app/main/node_modules/electron/dist/electron /app/main "$@"
+        EOF
+      - chmod +x /app/bin/silvi
     sources:
       # Your app source code
       - type: dir

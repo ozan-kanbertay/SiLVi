@@ -13,7 +13,7 @@ After you upload a file, a keyboard shortcut will be generated automatically for
 To start recording behaviors with keyboard shortcuts, first enable the labeling mode. You can do this either by toggling the relevant button on the main view panel or by pressing the assigned shortcut.
 
 
-<video src="/assets/videos/labeling_mode_toggle.mp4" class="help-video" muted loop autoplay></video>
+<video src="../assets/videos/labeling_mode_toggle.mp4" class="help-video" muted loop autoplay></video>
 
 When you are typing, the labeling is disabled automatically to prevent any clashes with the shortcuts.
 

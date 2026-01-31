@@ -149,3 +149,9 @@ build/
 
 # VSCode settings
 .vscode/
+
+# Flatpak-related folders and files
+repo/
+build-dir/
+.flatpak-builder/
+*.flatpak
