@@ -173,11 +173,6 @@ if (!fs.existsSync(appDataDir)) {
 
 
 
-
-
-
-
-
 /**
  * 
  * @param {*} folderPath 

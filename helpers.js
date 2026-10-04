@@ -573,30 +573,6 @@ async function loadSecondaryVideos(videoSrcArr) {
 
     secondaryVideoRow.append(videoColEl);
 
-
-    // const videoColDiv = [
-    //   `<div class="col">`,
-    //     '<div class="ratio ratio-16x9 video-container">',
-    //       '<div class="position-absolute spinner-parent-div"></div>',
-    //       `<video id="${domId}" class="secondary-video" src="${videoSrc}">`,
-    //         'Your browser does not support the video tag.',
-    //       '</video>',
-    //       '<div class="overlay px-2">',
-    //         // '<div class="d-flex justify-content-between">',
-    //           `<small class="secondary-video-title">${videoName}</small>`,
-    //           '<button type="button" class="btn btn-sm btn-icon-small btn-dispose-player">',
-    //             '<span class="material-symbols-rounded dark">close</span>',
-    //           '</button>',
-    //         // '</div>',
-    //       '</div>', 
-    //     '</div>',
-    //   '</div>'
-    // ].join('');
-    
-  
-    // // Add this div to the secondary video row
-    // secondaryVideoRow.innerHTML += videoColDiv;
-
   }
 
 

@@ -1886,7 +1886,7 @@ if (metadataTable) {
       keyInput.addEventListener('input', MetadataEntry.handleKeyInputWithDebounce);
       keyInput.addEventListener('focus', Player.userIsTyping);  // Disable hotkeys when user is typing
       keyInput.addEventListener('blur', Player.userStoppedTyping);  // Enable hotkeys after user stopped typing
-      keyInput.addEventListener('change', MetadataEntry.handleAddOrEditWithDebounce);
+      keyInput.addEventListener('change', MetadataEntry.handleAddOrEdit);
     });
   }
 
@@ -1894,10 +1894,10 @@ if (metadataTable) {
   const valueInputs = metadataTable.querySelectorAll('input[name="metadata-value"]');
   if (valueInputs) {
     valueInputs.forEach(valueInput => {
-      valueInput.addEventListener('input', MetadataEntry.handleValueInput);
+      valueInput.addEventListener('input', MetadataEntry.handleValueInputWithDebounce);
       valueInput.addEventListener('focus', MetadataEntry.handleValueInputFocus);  // Disable hotkeys when user is typing
       valueInput.addEventListener('blur', MetadataEntry.handleValueInputBlur);  // Enable hotkeys after user stopped typing
-      valueInput.addEventListener('change', MetadataEntry.handleAddOrEditWithDebounce);
+      valueInput.addEventListener('change', MetadataEntry.handleAddOrEdit);
     });
   }
 

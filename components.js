@@ -8964,7 +8964,8 @@ class MetadataEntry {
     'videoName': 'text',
     'videoFPS': 'numeric',
     'videoAspectRatio': 'numeric',
-    'timestamp': 'numeric',
+    'timestamp': 'numeric', // Timestamp for last playback position in seconds
+    'editTimestamp': 'text', // Timestamp in ISO format (UTC) for last edit
     'username': 'text',
     'actions': 'array',
     'individuals': 'array',
@@ -8972,7 +8973,7 @@ class MetadataEntry {
     'classIds': 'array',
     'classNames': 'array',
     'classColors': 'array',
-    'classRunningCounts': 'array'
+    'classRunningCounts': 'array',
   };
 
   static validTypes = ['binary', 'numeric', 'text', 'categorical', 'array'];
@@ -8984,7 +8985,7 @@ class MetadataEntry {
   static hiddenKeys = ['appVersion', 'timestamp', 'videoAspectRatio'];
 
   // Types of keys that should not be changeable by the user because they are either not user definable or not relevant for the user.
-  static keysWithImmutableType = ['videoFPS', 'videoName', 'videoAspectRatio','appVersion', 'timestamp', 'username', 'classIds', 'classNames', 'classColors', 'classRunningCounts'];
+  static keysWithImmutableType = ['videoFPS', 'videoName', 'videoAspectRatio','appVersion', 'timestamp', 'username', 'classIds', 'classNames', 'classColors', 'classRunningCounts', 'editTimestamp'];
 
   static positiveBinaryValue = 'yes';
   static negativeBinaryValue = 'no';
@@ -9937,8 +9938,6 @@ class MetadataEntry {
     // Reset the helper text to the default value
     helperTextEl.textContent = MetadataEntry.defaultHelperText;
 
-
-
   }
 
 
@@ -10248,6 +10247,9 @@ class MetadataEntry {
       return;
     }
 
+    // Update the edit timestamp of the metadata instance to the current time to indicate that the metadata has been edited by the user
+    metadata.updateEditTimestamp();
+
     // Check if the key exists already in the metadata of the player and get the existing entry if it exists
     const key = keyInputEl.value?.trim?.();
     const existingEntry = metadata.get(key);
@@ -10518,6 +10520,7 @@ class Metadata {
     this.updateTimestamp();
     this.updateActions();
     this.updateIndividuals();
+    this.updateEditTimestamp();
     
   }
 
@@ -10721,6 +10724,16 @@ class Metadata {
     }
   }
 
+  /**
+   * Updates the edit timestamp of the metadata instance to the current time.
+   * @returns {void}
+   */
+  updateEditTimestamp() {
+    const currentTimestamp = new Date().toISOString();
+    console.log(`Updating edit timestamp to: ${currentTimestamp}`);
+    this.update('editTimestamp', currentTimestamp);
+  }
+
   updateVideoFPS() {
     const mainPlayer = Player.getMainPlayer();
     if (mainPlayer) {
@@ -10822,8 +10835,9 @@ class Metadata {
 
   async writeToFile() {
 
-    // Always update the timestamp
+    // Always update the timestamps
     this.updateTimestamp();
+    this.updateEditTimestamp();
 
     // Convert entries from a MetadataEntry instance to a JS Object and finally to a JSON string, while converting MetadataEntry instances to plain objects using the toObject method for easier serialization
     const jsonString = JSON.stringify(this.toObject());
