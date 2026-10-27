@@ -69,9 +69,13 @@ jobs:
           #   org.freedesktop.Sdk//25.08 \
           #   org.electronjs.Electron2.BaseApp//25.08
       - name: Update npm
-        run: npm install -g npm@latest
+        run: npm install -g npm@11.6.2
+      - name: Show tool versions
+        run: |
+          node --version
+          npm --version
       - name: Install node dependencies
-        run: npm i --verbose || npm i --verbose || npm i --verbose
+        run: npm ci --verbose
       - name: Make distributables
         run: npm run make --verbose
         # env:
