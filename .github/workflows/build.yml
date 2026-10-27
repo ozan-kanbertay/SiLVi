@@ -75,6 +75,8 @@ jobs:
           node --version
           npm --version
       - name: Install node dependencies
+        env:
+          ONNXRUNTIME_NODE_INSTALL: skip  # Skip CUDA installation to prevent dependency issues
         run: npm ci --verbose
       - name: Make distributables
         run: npm run make --verbose
