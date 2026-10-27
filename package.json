@@ -38,6 +38,8 @@
     "electron-squirrel-startup": "^1.0.1",
     "js-yaml": "^4.1.1",
     "mediainfo.js": "^0.3.6",
+    "onnxruntime-node": "^1.30.0",
+    "sharp": "^0.35.5",
     "update-electron-app": "^3.1.2"
   }
 }

@@ -6,6 +6,11 @@ const yaml = require('js-yaml');
 
 const { parse } = require('csv-parse/sync');
 
+const ort = require('onnxruntime-node');
+const sharp = require('sharp');
+
+const modelSize = 640;
+
 // Enable HEVC decoder support
 app.commandLine.appendSwitch('enable-features', 'PlatformHEVCDecoderSupport');
 
@@ -119,6 +124,7 @@ const fs = require('node:fs')
 const readline = require('node:readline');
 const { type } = require('node:os');
 
+
 // Update the app automatically
 updateElectronApp({
   updateSource: {
@@ -171,7 +177,39 @@ if (!fs.existsSync(appDataDir)) {
 
 }
 
+let sessionPromise; // Promise for the ONNX Runtime Inference Session
 
+async function preprocessImage(imagePath) {
+  const { data, info } = await sharp(imagePath)
+    .removeAlpha()
+    .resize(modelSize, modelSize, {
+      fit: 'contain',
+      background: { r: 114, g: 114, b: 114 }
+    })
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+
+  const planeSize = modelSize * modelSize;
+  const chw = new Float32Array(3 * planeSize);
+
+  // sharp returns interleaved RGB: RGBRGB...
+  // ONNX expects planar RGB: RRR...GGG...BBB...
+  for (let i = 0; i < planeSize; i++) {
+    chw[i] = data[i * 3] / 255;
+    chw[planeSize + i] = data[i * 3 + 1] / 255;
+    chw[planeSize * 2 + i] = data[i * 3 + 2] / 255;
+  }
+
+  return {
+    tensor: new ort.Tensor(
+      'float32',
+      chw,
+      [1, 3, modelSize, modelSize]
+    ),
+    originalWidth: info.width,
+    originalHeight: info.height
+  };
+}
 
 /**
  * 
@@ -195,6 +233,23 @@ async function getFilesInFolder(folderPath) {
     console.error(err);
   }
 
+}
+
+
+function getModelPath() {
+  return app.isPackaged
+    ? path.join(process.resourcesPath, 'models', 'mdv6-yolov9c-int8.onnx')
+    : path.join(app.getAppPath(), 'models', 'mdv6-yolov9c-int8.onnx');
+}
+
+function getSession() {
+  if (!sessionPromise) {
+    sessionPromise = ort.InferenceSession.create(getModelPath(), {
+      executionProviders: ['cpu'],
+    });
+  }
+
+  return sessionPromise;
 }
 
 
@@ -2892,6 +2947,28 @@ app.whenReady().then(() => {
     return response;
   })
 
+  ipcMain.handle('onnx:runImage', async (e, imagePath) => {
+    const session = await getSession();
+    
+    console.log('Inputs:', session.inputNames);
+    console.dir(session.inputMetadata, { depth: null });
+    console.log('Outputs:', session.outputNames);
+    console.dir(session.outputMetadata, { depth: null });
+
+    const { tensor } = await preprocessImage(imagePath);
+
+    const outputs = await session.run({
+      [session.inputNames[0]]: tensor
+    });
+
+    const output = outputs[session.outputNames[0]];
+
+    return {
+      data: Array.from(output.data),
+      dims: output.dims,
+      type: output.type
+    };
+  });
 
   createWindow();
 
@@ -2900,6 +2977,8 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+
+  
 
 
 })

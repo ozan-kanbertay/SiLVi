@@ -1969,3 +1969,16 @@ if (importMetadataYMLBtn) {
 
 }
 
+async function predict() {
+
+  const testImgPath = '/Users/ok/Projects/silvi/models/a_e_2_220919_c8_26996.png'
+
+  const result = await window.electronAPI.runONNX(testImgPath);
+
+  console.log('Output dimensions:', result.dims);
+  console.log('Output values:', result.data);
+}
+
+predict();
+
+
