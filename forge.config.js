@@ -18,22 +18,20 @@ const commonLinuxConfig = {
 const fs = require('fs');
 const path = require('path');
 
-const removeForeignOnnxBinaries = async (_buildPath, electronVersion, platform, arch) => {
-  if (platform !== 'linux' || arch !== 'arm64') return;
+const removeForeignOnnxBinaries = async (buildPath, _electronVersion, platform, arch) => {
+  if (platform !== 'linux') return;
 
-  const onnxBin = path.join(
-    _buildPath,
-    'resources/app.asar.unpacked',
-    'node_modules',
-    'onnxruntime-node',
-    'bin',
-    'napi-v6',
-    'linux',
-    'x64',
-    'onnxruntime_binding.node'
+  const onnxRoot = path.join(
+    buildPath,
+    'resources/app.asar.unpacked/node_modules/onnxruntime-node/bin/napi-v6/linux'
   );
 
-  if (fs.existsSync(onnxBin)) fs.rmSync(onnxBin);
+  for (const candidate of ['x64', 'arm64']) {
+    if (candidate !== arch) {
+      const binary = path.join(onnxRoot, candidate, 'onnxruntime_binding.node');
+      if (fs.existsSync(binary)) fs.rmSync(binary);
+    }
+  }
 };
 
 
