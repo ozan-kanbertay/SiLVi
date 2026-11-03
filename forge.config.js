@@ -15,12 +15,35 @@ const commonLinuxConfig = {
   section: 'science',
 };
 
-  module.exports = {
+const fs = require('fs');
+const path = require('path');
+
+const removeForeignOnnxBinaries = async (_buildPath, electronVersion, platform, arch) => {
+  if (platform !== 'linux' || arch !== 'arm64') return;
+
+  const onnxBin = path.join(
+    _buildPath,
+    'resources/app.asar.unpacked',
+    'node_modules',
+    'onnxruntime-node',
+    'bin',
+    'napi-v6',
+    'linux',
+    'x64',
+    'onnxruntime_binding.node'
+  );
+
+  if (fs.existsSync(onnxBin)) fs.rmSync(onnxBin);
+};
+
+
+module.exports = {
   packagerConfig: {
     asar: true,
+    afterCopy: [removeForeignOnnxBinaries],
     icon: 'icons/icon',
     ignore: [
-      // 'examples', 
+      // 'examples',
       'installers',
       'docs',
       '.github'
