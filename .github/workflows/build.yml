@@ -87,10 +87,10 @@ jobs:
           grep -n '../usr/.' node_modules/electron-installer-redhat/resources/spec.ejs
       - name: Make distributables
         run: npm run make --verbose
-        # env:
-          # APPLE_ID_EMAIL: ${{ secrets.APPLE_ID_EMAIL }}
-          # APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-          # APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        env:
+          APPLE_ID_EMAIL: ${{ secrets.APPLE_ID_EMAIL }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
       - name: Upload artifacts
         uses: actions/upload-artifact@v6
         with:
