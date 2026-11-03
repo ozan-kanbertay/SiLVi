@@ -80,6 +80,7 @@ jobs:
           ONNXRUNTIME_NODE_INSTALL: skip  # Skip CUDA installation to prevent dependency issues
         run: npm ci --verbose
       - name: Fix RPM packaging for RPM 4.20+
+        if: ${{ startsWith(matrix.os, 'ubuntu-') }}
         run: |
           sed -i 's#cp -r usr/\* %{buildroot}/usr/#cp -r ../usr/. %{buildroot}/usr/#' \
             node_modules/electron-installer-redhat/resources/spec.ejs
