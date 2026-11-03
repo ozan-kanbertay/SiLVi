@@ -59,6 +59,9 @@ jobs:
         run: |
           sudo apt update
           sudo apt install rpm squashfs-tools
+          # Fix RPM packaging for RPM 4.20+
+          sed -i 's#cp -r usr/\* %{buildroot}/usr/#cp -r ../usr/. %{buildroot}/usr/#' \
+            node_modules/electron-installer-redhat/resources/spec.ejs
           # sudo apt install -y \
           #   flatpak \
           #   flatpak-builder \
