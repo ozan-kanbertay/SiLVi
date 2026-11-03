@@ -82,8 +82,9 @@ jobs:
       - name: Fix RPM packaging for RPM 4.20+
         if: ${{ startsWith(matrix.os, 'ubuntu-') }}
         run: |
-          sed -i 's#cp -r usr/\* %{buildroot}/usr/#cp -r ../usr/. %{buildroot}/usr/#' \
+          sed -i 's#usr/\* %{buildroot}/usr/#../usr/. %{buildroot}/usr/#' \
             node_modules/electron-installer-redhat/resources/spec.ejs
+          grep -n '../usr/.' node_modules/electron-installer-redhat/resources/spec.ejs
       - name: Make distributables
         run: npm run make --verbose
         # env:
